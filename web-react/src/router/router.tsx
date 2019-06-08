@@ -4,18 +4,21 @@ import About from '../pages/About';
 
 const Routers: Array<any> = [
   {
-    path: '/Design/',
+    path: '/design/',
     name: '设计区',
+    isShow: true,
     component: Design,
   },
   {
-    path: '/about',
+    path: '/about*',
     name: '关于',
+    isShow: true,
     component: About,
   },
   {
-    path: '/Error/*',
+    path: '/error/*',
     name: '错误页',
+    isShow: false,
     component: ErrorPage,
   }
 ];

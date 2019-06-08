@@ -1,19 +1,32 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import RouterConfig from '../router/router';
-import {
-  Link
-} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './default.scss';
 
 const { SubMenu } = Menu;
 const { Header, Footer } = Layout;
 
-export default class DesignLayout extends React.Component {
+class DesignLayout extends React.Component {
+
+  state = {
+    defaultSelectedKeys: 1
+  }
 
   constructor(props) {
     super(props);
-    console.log(RouterConfig)
+
+    // 顶部导航 选中状态 判断
+    const { path } = this.props.match;
+    for (const index in RouterConfig) {
+      console.log(path, RouterConfig[index])
+      if (path === RouterConfig[index].path) {
+        this.state = {
+          defaultSelectedKeys: index
+        }
+        break;
+      }
+    }
   }
   
   render() {
@@ -24,7 +37,7 @@ export default class DesignLayout extends React.Component {
           <Menu
             theme='dark'
             mode='horizontal'
-            defaultSelectedKeys={['3']}
+            defaultSelectedKeys={[this.state.defaultSelectedKeys]}
             style={{ lineHeight: '64px' }}
           >
             <SubMenu
@@ -47,7 +60,8 @@ export default class DesignLayout extends React.Component {
             </SubMenu>
 
             {
-              RouterConfig.map((element, index) => (
+              // 可见路由遍历
+              RouterConfig.map((element, index) => element.isShow && (
                 <Menu.Item key={ index }>
                   <Link to={ element.path }>
                     <Icon type='bank' />
@@ -101,3 +115,5 @@ export default class DesignLayout extends React.Component {
     );
   }
 };
+
+export default withRouter(DesignLayout)
