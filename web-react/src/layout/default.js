@@ -71,27 +71,6 @@ class DesignLayout extends React.Component {
               ))
             }
 
-            {/* <Menu.Item key='2'>
-              <Link to='/Design/'>
-                <Icon type='bank' />
-                首页
-              </Link>
-            </Menu.Item>
-
-            <Menu.Item key='3'>
-              <Link to='/Design/'>
-                <Icon type='experiment' />
-                设计
-              </Link>
-            </Menu.Item>
-
-            <Menu.Item key='4'>
-              <Link to='/about'>
-                <Icon type='trademark' />
-                关于
-              </Link>
-            </Menu.Item> */}
-
             <SubMenu
               key='SubMenu:2'
               style={{ float: 'right', height: '100%' }}
