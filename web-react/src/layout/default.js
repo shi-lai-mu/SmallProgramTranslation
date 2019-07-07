@@ -19,7 +19,6 @@ class DesignLayout extends React.Component {
     // 顶部导航 选中状态 判断
     const { path } = this.props.match;
     for (const index in RouterConfig) {
-      console.log(path, RouterConfig[index])
       if (path === RouterConfig[index].path) {
         this.state = {
           defaultSelectedKeys: index

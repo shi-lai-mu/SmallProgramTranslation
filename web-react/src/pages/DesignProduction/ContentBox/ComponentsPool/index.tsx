@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Tabs } from 'antd';
+import GeneralPool from './generalPool'
 
 const { TabPane } = Tabs;
 
@@ -8,7 +9,7 @@ export default class ComponentsPool extends React.Component {
     return (
       <Tabs tabPosition='right'>
         <TabPane tab='通用组件池' key='3'>
-          通用
+          <GeneralPool />
         </TabPane>
         <TabPane tab='局部组件池' key='2'>
           头部组件
