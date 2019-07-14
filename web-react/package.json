@@ -9,10 +9,11 @@
     "@types/react-dom": "16.8.4",
     "antd": "^3.20.2",
     "customize-cra": "^0.2.14",
+    "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.3",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^3.0.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-typescript": "^0.14.0",
+    "sass-loader": "^7.1.0",
     "typescript": "^3.5.3",
     "typescript-eslint-parser": "^22.0.0"
   }
