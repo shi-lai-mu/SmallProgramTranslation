@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import RouterRegister from './router/index'
+import RouterRegister from './router';
 
 ReactDOM.render(<RouterRegister />, document.getElementById('root'));
 

@@ -2,7 +2,8 @@
 import {
   HashRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 import * as React from 'react';
 import Routers from './router';
@@ -14,18 +15,17 @@ type RouterModel = {
   icon?: string,
   component?: any,
   subRoutes?: Array<RouterModel>
-}
-const routerList: Array<RouterModel> = Routers
-console.log(routerList)
+};
+const routerList: Array<RouterModel> = Routers;
 
 class RouterComponent extends React.Component<any, any> {
   render() {
+    const href = window.location.href
     return (
       <Router>
         <Switch>
         {
-          routerList.map((item: RouterModel, index) => {
-            console.log(index)
+          routerList.map((item: RouterModel, index: number) => {
             return (
               <Route
                 path={item.path}
@@ -36,6 +36,7 @@ class RouterComponent extends React.Component<any, any> {
             )
           })
         }
+        <Redirect exact to={`/Error/404/url=${encodeURIComponent(href)}`}/>
         </Switch>
       </Router>
     )

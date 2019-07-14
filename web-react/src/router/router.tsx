@@ -1,12 +1,12 @@
+import ErrorPage from '../pages/Error';
 
-// import base from '../pages/Bate'
 
 const Routers: Array<any> = [
-  // {
-  //   path: '/bate333',
-  //   name: 'routerBate',
-  //   component: base,
-  // }
-]
+  {
+    path: '/Error/*',
+    name: 'errorPage',
+    component: ErrorPage,
+  }
+];
 
-export default Routers
+export default Routers;
