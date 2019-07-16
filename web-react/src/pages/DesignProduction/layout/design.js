@@ -14,7 +14,7 @@ export default class DesignLayout extends React.Component {
           <Menu
             theme='dark'
             mode='horizontal'
-            defaultSelectedKeys={['2']}
+            defaultSelectedKeys={['3']}
             style={{ lineHeight: '64px' }}
           >
             <SubMenu
@@ -67,8 +67,8 @@ export default class DesignLayout extends React.Component {
           </Menu>
         </Header>
         {this.props.children}
-        <Footer style={{ textAlign: 'center' }}>© CopyRight 2018-2019, <a href='//slmblog.com'>SLMBLOG.COM</a>, Inc.All Rights Reserved.</Footer>
+        <Footer className="Footer">© CopyRight 2018-2019, <a href='//slmblog.com'>SLMBLOG.COM</a>, Inc.All Rights Reserved.</Footer>
       </Layout>
-    )
+    );
   }
-}
+};
