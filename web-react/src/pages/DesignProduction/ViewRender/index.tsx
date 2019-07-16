@@ -8,6 +8,7 @@ export default class ViewRender extends React.Component {
     return (
       <div className='card-container view-render'>
         <Tabs >
+
           <TabPane
             tab={
               <span>
@@ -19,6 +20,7 @@ export default class ViewRender extends React.Component {
           >
             <p>视图界面</p>
           </TabPane>
+
           <TabPane
             tab={
               <span>
@@ -30,6 +32,7 @@ export default class ViewRender extends React.Component {
           >
             <p>设置界面</p>
           </TabPane>
+
           <TabPane
             tab={
               <span>
@@ -41,6 +44,7 @@ export default class ViewRender extends React.Component {
           >
             <p>日志界面</p>
           </TabPane>
+
         </Tabs>
       </div>
     );

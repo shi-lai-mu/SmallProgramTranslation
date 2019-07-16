@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Tabs } from 'antd';
 import './ContentBox.scss';
+import ComponentsPool from './ComponentsPool'
 
 const { TabPane } = Tabs;
 
@@ -13,13 +14,13 @@ export default class ContentBox extends React.Component {
         hideAdd
         animated
       >
-        <TabPane tab='Tab 1' key='1'>
-          Content of Tab 1
+        <TabPane tab='组建池' key='1'>
+          <ComponentsPool />
         </TabPane>
-        <TabPane tab='Tab 2' key='2'>
+        <TabPane tab='我的收藏' key='2'>
           Content of Tab 2
         </TabPane>
-        <TabPane tab='Tab 3' key='3'>
+        <TabPane tab='自定义组件' key='3'>
           Content of Tab 3
         </TabPane>
       </Tabs>
