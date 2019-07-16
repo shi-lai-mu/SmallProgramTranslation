@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+/**
+ * 错误页面处理
+ */
 export default class ErrorPage extends React.Component {
 
   state = {

@@ -1,6 +1,6 @@
 
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Switch,
   Redirect
@@ -8,14 +8,14 @@ import {
 import * as React from 'react';
 import Routers from './router';
 
-
-type RouterModel = {
+interface RouterModel {
   path: string,
   name: string,
   icon?: string,
   component?: any,
   subRoutes?: Array<RouterModel>
-};
+}
+
 const routerList: Array<RouterModel> = Routers;
 
 class RouterComponent extends React.Component<any, any> {

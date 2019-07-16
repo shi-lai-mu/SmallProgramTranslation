@@ -1,0 +1,35 @@
+@import '~antd/dist/antd.css';
+.DesignLayout {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 999;
+  }
+
+  .row-box {
+    margin-top: 64px;
+    min-height: 100vh;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  &:hover {
+    background-color: rgba(255, 255, 255, .1);
+  }
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .3) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .3) 50%, rgba(255, 255, 255, .3) 75%, transparent 75%, transparent);
+    border-radius: 5px;
+    &:hover {
+      background-color: #F90;
+    }
+    &:active {
+      background-color: #de4f3a;
+    }
+}
