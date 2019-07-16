@@ -18,7 +18,7 @@ interface RouterModel {
 
 const routerList: Array<RouterModel> = Routers;
 
-class RouterComponent extends React.Component<any, any> {
+export default class RouterComponent extends React.Component {
   render() {
     const href = window.location.href
     return (
@@ -42,5 +42,3 @@ class RouterComponent extends React.Component<any, any> {
     )
   }
 }
-
-export default RouterComponent;

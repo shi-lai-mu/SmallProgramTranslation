@@ -1,15 +1,30 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
+import {
+  Link
+} from 'react-router-dom';
 import './default.scss';
+import About from '../pages/About';
 
 const { SubMenu } = Menu;
 const { Header, Footer } = Layout;
 
 export default class DesignLayout extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props)
+    this.routerEntrust = this.routerEntrust.bind(this);
+  }
+
+  routerEntrust() {
+    console.log(this)
+    // browserHistory.push('/about')
+  }
+
   render() {
     return (
       <Layout className='DesignLayout' style={{ minHeight: '100vh' }}>
-        <Header className='header'>
+        <Header className='header' onClick={this.routerEntrust}>
           <div className='logo' />
           <Menu
             theme='dark'
@@ -42,13 +57,17 @@ export default class DesignLayout extends React.Component {
             </Menu.Item>
 
             <Menu.Item key='3'>
-              <Icon type='experiment' />
-              设计
+              <Link to='/Design/'>
+                <Icon type='experiment' />
+                设计
+              </Link>
             </Menu.Item>
 
             <Menu.Item key='4'>
-              <Icon type='trademark' />
-              关于
+              <Link to='/about'>
+                <Icon type='trademark' />
+                关于
+              </Link>
             </Menu.Item>
 
             <SubMenu
