@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
+import RouterConfig from '../router/router';
 import {
   Link
 } from 'react-router-dom';
@@ -12,6 +13,7 @@ export default class DesignLayout extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log(RouterConfig)
   }
   
   render() {
@@ -32,7 +34,7 @@ export default class DesignLayout extends React.Component {
                   小程序编译平台
                 </span>
               }
-              key='1'
+              key='SubMenu:1'
             >
               <Menu.ItemGroup title='Item 1'>
                 <Menu.Item key='setting:1'>Option 1</Menu.Item>
@@ -44,9 +46,22 @@ export default class DesignLayout extends React.Component {
               </Menu.ItemGroup>
             </SubMenu>
 
-            <Menu.Item key='2'>
-              <Icon type='bank' />
-              首页
+            {
+              RouterConfig.map((element, index) => (
+                <Menu.Item key={ index }>
+                  <Link to={ element.path }>
+                    <Icon type='bank' />
+                    { element.name }
+                  </Link>
+                </Menu.Item>
+              ))
+            }
+
+            {/* <Menu.Item key='2'>
+              <Link to='/Design/'>
+                <Icon type='bank' />
+                首页
+              </Link>
             </Menu.Item>
 
             <Menu.Item key='3'>
@@ -61,10 +76,10 @@ export default class DesignLayout extends React.Component {
                 <Icon type='trademark' />
                 关于
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
 
             <SubMenu
-              key='5'
+              key='SubMenu:2'
               style={{ float: 'right', height: '100%' }}
               title={
                 <span className='submenu-title-wrapper'>
