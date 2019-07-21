@@ -22,6 +22,8 @@
     "clean": "ets clean"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
+    "cross-spawn": "^6.0.5",
     "egg": "^2.6.1",
     "egg-cors": "^2.2.0",
     "egg-mysql": "^3.0.0",
