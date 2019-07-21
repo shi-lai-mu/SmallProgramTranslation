@@ -10,7 +10,7 @@ const Routers: Array<any> = [
     component: Design,
   },
   {
-    path: '/about*',
+    path: '/about',
     name: '关于',
     isShow: true,
     component: About,
