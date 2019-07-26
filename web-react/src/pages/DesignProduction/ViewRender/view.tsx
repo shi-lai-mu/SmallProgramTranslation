@@ -5,7 +5,25 @@ const PtIcon = Icon.createFromIconfontCN({
 });
 
 
-export default class ViewDisplay extends React.Component {
+export default class ViewDisplay extends React.Component<any, any> {
+
+  constructor(props: any) {
+    super(props);
+    this.onDrop = this.onDrop.bind(this);
+    this.dragOver = this.dragOver.bind(this);
+  }
+
+  onDrop(e: any) {
+    e.stopPropagation();
+    var data=e.dataTransfer.getData('Text');
+    console.log(data)
+    // e.target.appendChild(document.getElementById(data));
+  }
+
+  dragOver(e: any) {
+    e.preventDefault();
+  }
+
   render() {
     return (
       <div className='view-display'>
@@ -20,8 +38,8 @@ export default class ViewDisplay extends React.Component {
           </span>
         </header>
 
-        <div className='display-body'>
-          
+        <div className='display-body' onDrop={this.onDrop} onDragOver={this.dragOver}>
+          {/* 界面内容 */}
           <div className='page-not-data'>
             <div>
               <PtIcon type='pt-zanwu1'/>

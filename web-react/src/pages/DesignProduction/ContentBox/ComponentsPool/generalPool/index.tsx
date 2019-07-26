@@ -7,6 +7,7 @@ export default class GeneralPool extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.compileTest = this.compileTest.bind(this);
+    this.dragstart = this.dragstart.bind(this);
   }
 
   state = {
@@ -38,6 +39,10 @@ export default class GeneralPool extends React.Component<any, any> {
     })
   }
 
+  dragstart(e: any) {
+    e.dataTransfer.setData('Text', '123456');
+  }
+
   render () {
     return (
       <div style={{padding: '20px', boxSizing: 'border-box'}}>
@@ -54,7 +59,13 @@ export default class GeneralPool extends React.Component<any, any> {
           dataSource={this.state.data}
           renderItem={item => (
             <List.Item>
-              <Card title={item.title}>[{item.title}] 的组建简介</Card>
+              <Card
+                title={item.title}
+                onDragStart={this.dragstart}
+                draggable={true}
+              >
+                [{item.title}] 的组建简介
+              </Card>
             </List.Item>
           )}
         />
