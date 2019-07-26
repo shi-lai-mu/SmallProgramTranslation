@@ -1,0 +1,22 @@
+.view-display {
+  display: flex;
+  flex-wrap: wrap;
+
+  header {
+    display: flex;
+    width: 100%;
+    padding: 5px 10px;
+    justify-content: space-between;
+    background-color: #fff;
+
+    i {
+      font-size: 18px;
+      margin-left: 10px;
+    }
+  }
+
+  .display-body {
+    min-height: 75vh;
+    width: 100%;
+  }
+}

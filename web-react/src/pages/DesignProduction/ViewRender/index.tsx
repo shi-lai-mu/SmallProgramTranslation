@@ -1,6 +1,7 @@
 import * as React from 'react';
-
+import ViewDisplay from './view';
 import { Tabs, Icon } from 'antd';
+import './viewrender.scss';
 const { TabPane } = Tabs;
 
 export default class ViewRender extends React.Component {
@@ -18,7 +19,7 @@ export default class ViewRender extends React.Component {
             }
             key='1'
           >
-            <p>视图界面</p>
+            <ViewDisplay/ >
           </TabPane>
 
           <TabPane
