@@ -19,7 +19,7 @@ export default class ViewRender extends React.Component {
             }
             key='1'
           >
-            <ViewDisplay/ >
+            <ViewDisplay />
           </TabPane>
 
           <TabPane
