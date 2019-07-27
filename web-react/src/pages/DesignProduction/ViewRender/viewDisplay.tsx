@@ -8,29 +8,44 @@ const PtIcon = Icon.createFromIconfontCN({
 
 export default class ViewDisplay extends React.Component<any, any> {
 
-  constructor(props: any) {
-    super(props);
-    this.onDrop = this.onDrop.bind(this);
-    this.dragOver = this.dragOver.bind(this);
+  state = {
+    time: new Date(),
+    html: '<div></div>'
   }
 
-  onDrop(e: any) {
+  constructor(props: any) {
+    super(props);
+    const that = this;
+    setInterval(() => {
+      that.setState({
+        time: new Date()
+      });
+    }, 60000);
+    // 引入
+    let script = document.createElement('script');
+    script.src = '/static/test.js';
+    document.body.appendChild(script);
+  }
+
+  onDrop = (e: any) => {
     e.stopPropagation();
     var data=e.dataTransfer.getData('Text');
     console.log(data)
   }
 
-  dragOver(e: any) {
+  dragOver = (e: any) => {
     e.preventDefault();
   }
+  
 
   render() {
+    const { time } = this.state;
     return (
       <div className='view-display'>
 
         <header>
           <span>
-            { (new Date()).getHours() }:{ (new Date()).getMinutes() }
+            { time.getHours() }:{ time.getMinutes() }
           </span>
           <span>
             <PtIcon type='pt-wifi'/>
@@ -39,9 +54,10 @@ export default class ViewDisplay extends React.Component<any, any> {
         </header>
 
         <div className='display-body' onDrop={this.onDrop} onDragOver={this.dragOver}>
-          {/* 界面内容 */}
-          <div className='page-not-data'>
+          {/* <div dangerouslySetInnerHTML={{__html: this.state.html}}></div> */}
+          <div id='app' className='page-not-data'>
             <div>
+              <div dangerouslySetInnerHTML={{__html: `{{ m }}`}}></div>
               <PtIcon type='pt-zanwu1'/>
               <span>暂无数据，从组建池内拖入本区域试试？</span>
             </div>

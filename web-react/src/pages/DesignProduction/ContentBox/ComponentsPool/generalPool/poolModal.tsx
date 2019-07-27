@@ -54,7 +54,7 @@ export default class PoolModal extends React.Component<PoolModalModel, any> {
           }
           key='PoolModal:3'
         >
-          <p>组件预览</p>
+          <p>组件信息</p>
         </TabPane>
       </Tabs>
     )
