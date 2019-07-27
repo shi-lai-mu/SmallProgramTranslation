@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Tabs } from 'antd';
 import './ContentBox.scss';
-import ComponentsPool from './ComponentsPool'
+import ComponentsPool from './ComponentsPool/ComponentsPool'
 
 const { TabPane } = Tabs;
 

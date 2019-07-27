@@ -9,6 +9,7 @@ export default class ViewDisplay extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props);
+    console.log(store)
     this.onDrop = this.onDrop.bind(this);
     this.dragOver = this.dragOver.bind(this);
   }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Tabs } from 'antd';
-import GeneralPool from './generalPool'
+import GeneralPool from './generalPool/generalPool'
 
 const { TabPane } = Tabs;
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ViewDisplay from './view';
+import ViewDisplay from './viewDisplay';
 import { Tabs, Icon } from 'antd';
 import './viewrender.scss';
 const { TabPane } = Tabs;

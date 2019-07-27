@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, List, Card  } from 'antd';
+import { List, Card  } from 'antd';
 import axios from 'axios';
 
 export default class GeneralPool extends React.Component<any, any> {
