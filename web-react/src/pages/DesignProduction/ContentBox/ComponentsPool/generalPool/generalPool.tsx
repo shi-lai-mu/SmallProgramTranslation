@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { List, Card  } from 'antd';
 import axios from 'axios';
+import { List, Card, Modal, Button  } from 'antd';
+import PoolModal from './poolModal';
+
+/**
+ * 通用组件池 组件
+ */
 
 export default class GeneralPool extends React.Component<any, any> {
 
@@ -13,24 +18,28 @@ export default class GeneralPool extends React.Component<any, any> {
   state = {
     data: [
       {
-        title: '组建 1',
+        title: '组件 1',
       },
       {
-        title: '组建 2',
+        title: '组件 2',
       },
       {
-        title: '组建 3',
+        title: '组件 3',
       },
       {
-        title: '组建 4',
+        title: '组件 4',
       },
       {
-        title: '组建 5',
+        title: '组件 5',
       },
       {
-        title: '组建 6',
+        title: '组件 6',
       },
-    ]
+    ],
+    visible: false,
+    target: {
+      title: ''
+    }
   }
 
   compileTest() {
@@ -63,55 +72,30 @@ export default class GeneralPool extends React.Component<any, any> {
                 title={item.title}
                 onDragStart={this.dragstart}
                 draggable={true}
+                onClick={() => this.setState({visible: true, target: item})}
               >
-                [{item.title}] 的组建简介
+                [{item.title}] 的组件简介
               </Card>
             </List.Item>
           )}
         />
+        <Modal
+          visible={this.state.visible}
+          title={'添加 ' + this.state.target.title + '?'}
+          onOk={() => this.setState({visible: false})}
+          onCancel={() => this.setState({visible: false})}
+          footer={[
+            <Button key='back' onClick={() => this.setState({visible: false})}>
+              Return
+            </Button>,
+            <Button key='submit' type='primary'>
+              Submit
+            </Button>,
+          ]}
+        >
+          <PoolModal target={this.state.target} />
+        </Modal>
       </div>
     )
   }
 }
-
-// const data = [
-//   {
-//     title: 'Title 1',
-//   },
-//   {
-//     title: 'Title 2',
-//   },
-//   {
-//     title: 'Title 3',
-//   },
-//   {
-//     title: 'Title 4',
-//   },
-//   {
-//     title: 'Title 5',
-//   },
-//   {
-//     title: 'Title 6',
-//   },
-// ];
-
-// ReactDOM.render(
-//   <List
-//     grid={{
-//       gutter: 16,
-//       xs: 1,
-//       sm: 2,
-//       md: 4,
-//       lg: 4,
-//       xl: 6,
-//       xxl: 3,
-//     }}
-//     dataSource={data}
-//     renderItem={item => (
-//       <List.Item>
-//         <Card title={item.title}>Card content</Card>
-//       </List.Item>
-//     )}
-//   />,
-//   mountNode,
-// );

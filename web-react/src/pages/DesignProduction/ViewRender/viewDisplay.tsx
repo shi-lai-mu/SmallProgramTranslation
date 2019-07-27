@@ -18,7 +18,6 @@ export default class ViewDisplay extends React.Component<any, any> {
     e.stopPropagation();
     var data=e.dataTransfer.getData('Text');
     console.log(data)
-    // e.target.appendChild(document.getElementById(data));
   }
 
   dragOver(e: any) {
