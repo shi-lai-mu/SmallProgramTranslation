@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Icon } from 'antd';
+import config from '../../../config/default'
 const PtIcon = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1318652_tpp3ksfr4lk.js', // 在 iconfont.cn 上生成
+  scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
 });
 
 
@@ -9,7 +10,6 @@ export default class ViewDisplay extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props);
-    console.log(store)
     this.onDrop = this.onDrop.bind(this);
     this.dragOver = this.dragOver.bind(this);
   }

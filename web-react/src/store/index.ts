@@ -1,8 +1,7 @@
 import { createStore, combineReducers } from 'redux';
-import config from '../config/default';
 
 
-const defaultReducer = (store: any = {}, action: any) => {
+const defaultReducer = () => {
   return {
     cart: [
       {
@@ -21,7 +20,6 @@ const defaultReducer = (store: any = {}, action: any) => {
 
 const rootReducer = combineReducers({
   defaultReducer,
-  config,
 });
 const store = createStore(rootReducer);
 

@@ -7,13 +7,13 @@ import './default.scss';
 const { SubMenu } = Menu;
 const { Header, Footer } = Layout;
 
-class DesignLayout extends React.Component {
+class DesignLayout extends React.Component<any, any> {
 
   state = {
-    defaultSelectedKeys: 1
+    defaultSelectedKeys: '1'
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     // 顶部导航 选中状态 判断
@@ -27,7 +27,6 @@ class DesignLayout extends React.Component {
       }
     }
   }
-  
   render() {
     return (
       <Layout className='DesignLayout' style={{ minHeight: '100vh' }}>
@@ -85,13 +84,13 @@ class DesignLayout extends React.Component {
             </SubMenu>
           </Menu>
         </Header>
-        <div className="page">
+        <div className='page'>
           {this.props.children}
         </div>
-        <Footer className="footer">© CopyRight 2018-2019, <a href='//slmblog.com'>SLMBLOG.COM</a>, Inc.All Rights Reserved.</Footer>
+        <Footer className='footer'>© CopyRight 2018-2019, <a href='//slmblog.com'>SLMBLOG.COM</a>, Inc.All Rights Reserved.</Footer>
       </Layout>
     );
   }
-};
+}
 
 export default withRouter(DesignLayout)
