@@ -9,8 +9,7 @@ const PtIcon = Icon.createFromIconfontCN({
 export default class ViewDisplay extends React.Component<any, any> {
 
   state = {
-    time: new Date(),
-    html: '<div></div>'
+    time: new Date()
   }
 
   constructor(props: any) {
@@ -21,10 +20,12 @@ export default class ViewDisplay extends React.Component<any, any> {
         time: new Date()
       });
     }, 60000);
-    // 引入
-    let script = document.createElement('script');
-    script.src = '/static/test.js';
-    document.body.appendChild(script);
+    // 引入渲染所需框架
+    const vue = document.createElement('script');
+    vue.src = config.vueCDN;
+    const script = document.createElement('script');
+    script.src = 'http://127.0.0.1:7001/test.js';
+    document.body.append(vue, script);
   }
 
   onDrop = (e: any) => {

@@ -7,28 +7,42 @@ app.innerHTML =  `
         <div class="input-row">
             <span class="title">密码：</span>
         </div>
+        <todo-item></todo-item>
+        <xxx ></xxx>
     </div>`
 // https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js
-let link = document.createElement('link');
-link.href='/static/index.css'
-link.rel='stylesheet'
-link.type='text/css'
-document.head.appendChild(link);
+// let link = document.createElement('link');
+// link.href='/static/index.css'
+// link.rel='stylesheet'
+// link.type='text/css'
+// document.head.appendChild(link);
 
 let script = document.createElement('script');
 script.src = 'https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js';
 document.body.appendChild(script);
 script.onload = () => {
   Vue.component('todo-item', {
-   
-    template: '<p>这是个待办项组件</p>'
+    data: function () {
+      return {
+        message: 'not updated'
+      }
+    },
+    template: '<p @click="s">这是个待办项组件1{{ message }}2</p>',
+    methods: {
+      s () {
+        console.log(this)
+      }
+    }
   })
   
+  Vue.component('xxx', {
+    template: '<p>这是个待办项组件2</p>'
+  })
   
   new Vue({
-      el:"#app",
+      el:'#app',
       data:{
-        m:"hello vue.js",
+        m:'hello vue.js',
         x: 0,
         account: '',
         password: '',
@@ -38,10 +52,5 @@ script.onload = () => {
           this.x++
         }
       },
-      components: { 
-        'all': {
-          template: '<p>这是个待办项组件</p>'
-        }
-      }	 
   })
 }
