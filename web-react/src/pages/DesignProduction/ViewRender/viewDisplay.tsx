@@ -15,6 +15,7 @@ export default class ViewDisplay extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     const that = this;
+    // 一分钟更新一次左上角时间
     setInterval(() => {
       that.setState({
         time: new Date()
