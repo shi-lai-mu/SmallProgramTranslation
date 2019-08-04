@@ -25,6 +25,7 @@ export default class ViewDisplay extends React.Component<any, any> {
     const vue = document.createElement('script');
     vue.src = config.vueCDN;
     const script = document.createElement('script');
+    script.id = 'vue';
     script.src = 'http://127.0.0.1:7001/test.js';
     document.body.append(vue, script);
   }
