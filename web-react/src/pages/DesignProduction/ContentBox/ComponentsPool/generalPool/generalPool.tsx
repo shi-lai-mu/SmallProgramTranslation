@@ -13,9 +13,11 @@ export default class GeneralPool extends React.Component<any, any> {
   state = {
     data: [
       {
+        name: 'loginTest',
         title: '组件 1',
       },
       {
+        name: 'Test2',
         title: '组件 2',
       },
       {

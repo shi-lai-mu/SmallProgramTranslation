@@ -7,11 +7,18 @@ const PtIcon = Icon.createFromIconfontCN({
   scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
 });
 
+interface StateModel {
+  time: any,
+  targetComponentList: any[],
+  vueCode: string,
+}
 
 export default class ViewDisplay extends React.Component<any, any> {
 
-  state = {
-    time: new Date()
+  state:StateModel = {
+    time: new Date(),
+    targetComponentList: [],
+    vueCode: ''
   }
 
   constructor(props: any) {
@@ -40,13 +47,24 @@ export default class ViewDisplay extends React.Component<any, any> {
     // script.id = 'vue';
     // script.src = 'http://127.0.0.1:7001/test.js';
     // document.body.append(script);
+    console.log(componentDom)
+    const targetComponentList = this.state.targetComponentList
+    targetComponentList.push(componentDom);
+    this.setState({ targetComponentList })
+
     axios
       .post('http://127.0.0.1:7001/test.js', {
-        dom: componentDom
+        dom: targetComponentList
       })
       .then((res:any) => {
-        if (!eval(res.data)) {
-          throw Error('视图渲染失败！');
+        // eval(res.data)
+        try {
+          eval(res.data);
+          this.setState({
+            vueCode: res.data
+          })
+        } catch (e) {
+          throw Error('视图渲染失: ' + e);
         }
       })
   }
@@ -69,7 +87,7 @@ export default class ViewDisplay extends React.Component<any, any> {
    * 渲染
    */
   render() {
-    const { time } = this.state;
+    const { time, vueCode } = this.state;
     return (
       <div className='view-display'>
 
@@ -84,10 +102,8 @@ export default class ViewDisplay extends React.Component<any, any> {
         </header>
 
         <div className='display-body' onDrop={this.onDrop} onDragOver={this.dragOver}>
-          {/* <div dangerouslySetInnerHTML={{__html: this.state.html}}></div> */}
-          <div id='app' className='page-not-data'>
-            <div>
-              <div dangerouslySetInnerHTML={{__html: `{{ m }}`}}></div>
+          <div className={ vueCode ? '' : 'page-not-data'}>
+            <div className='display-render'>
               <PtIcon type='pt-zanwu1'/>
               <span>暂无数据，从组建池内拖入本区域试试？</span>
             </div>
