@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Icon } from 'antd';
-import config from '../../../config/default'
+import config from '../../../config/default';
+import axios from 'axios';
+
 const PtIcon = Icon.createFromIconfontCN({
   scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
 });
@@ -24,16 +26,30 @@ export default class ViewDisplay extends React.Component<any, any> {
     // 引入渲染所需框架
     const vue = document.createElement('script');
     vue.src = config.vueCDN;
-    const script = document.createElement('script');
-    script.id = 'vue';
-    script.src = 'http://127.0.0.1:7001/test.js';
-    document.body.append(vue, script);
+    document.body.append(vue);
+  }
+
+  updateDisplay = () => {
+    // const script = document.createElement('script');
+    // script.id = 'vue';
+    // script.src = 'http://127.0.0.1:7001/test.js';
+    // document.body.append(script);
+    axios
+      .post('http://127.0.0.1:7001/test.js', {
+        s: 123
+      })
+      .then((res:any) => {
+        if (!eval(res.data)) {
+          throw Error('视图渲染失败！');
+        }
+      })
   }
 
   onDrop = (e: any) => {
     e.stopPropagation();
     var data=e.dataTransfer.getData('Text');
     console.log(data)
+    this.updateDisplay()
   }
 
   dragOver = (e: any) => {

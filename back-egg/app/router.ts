@@ -3,5 +3,5 @@ import { Application } from 'egg';
 export default (app: Application) => {
   const { controller, router } = app;
 
-  router.get('/test.js', controller.home.test);
+  router.post('/test.js', controller.home.test);
 };
