@@ -1,5 +1,5 @@
 import * as React from 'react';
-import axios from 'axios';
+// import axios from 'axios'  ;
 import { List, Card, Modal, Button  } from 'antd';
 import PoolModal from './poolModal';
 
@@ -9,11 +9,6 @@ import PoolModal from './poolModal';
 
 export default class GeneralPool extends React.Component<any, any> {
 
-  constructor(props: any) {
-    super(props);
-    this.compileTest = this.compileTest.bind(this);
-    this.dragstart = this.dragstart.bind(this);
-  }
 
   state = {
     data: [
@@ -42,14 +37,19 @@ export default class GeneralPool extends React.Component<any, any> {
     }
   }
 
-  compileTest() {
-    axios.get('http://127.0.0.1:7001/test').then(res => {
-      console.log(res.data)
-    })
+  constructor(props: any) {
+    super(props);
   }
 
-  dragstart(e: any) {
-    e.dataTransfer.setData('Text', '123456');
+  compileTest = () => {
+    // axios.get('http://127.0.0.1:7001/test').then(res => {
+    //   console.log(res.data)
+    // })
+  }
+
+  dragstart = (e: any) => {
+    console.log(e.target.dataset)
+    e.dataTransfer.setData('dom',JSON.stringify(this.state.data[e.target.dataset.index]));
   }
 
   render () {
@@ -66,13 +66,14 @@ export default class GeneralPool extends React.Component<any, any> {
             xxl: 3,
           }}
           dataSource={this.state.data}
-          renderItem={item => (
+          renderItem={(item, key) => (
             <List.Item>
               <Card
                 title={item.title}
                 onDragStart={this.dragstart}
                 draggable={true}
                 onClick={() => this.setState({visible: true, target: item})}
+                data-index={key}
               >
                 [{item.title}] 的组件简介
               </Card>

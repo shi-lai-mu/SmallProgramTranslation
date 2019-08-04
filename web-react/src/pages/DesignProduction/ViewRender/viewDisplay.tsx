@@ -17,26 +17,32 @@ export default class ViewDisplay extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     const that = this;
+
     // 一分钟更新一次左上角时间
     setInterval(() => {
       that.setState({
         time: new Date()
       });
     }, 60000);
+
     // 引入渲染所需框架
     const vue = document.createElement('script');
     vue.src = config.vueCDN;
     document.body.append(vue);
   }
 
-  updateDisplay = () => {
+
+  /**
+   * 更新视图渲染
+   */
+  updateDisplay = (componentDom?: any) => {
     // const script = document.createElement('script');
     // script.id = 'vue';
     // script.src = 'http://127.0.0.1:7001/test.js';
     // document.body.append(script);
     axios
       .post('http://127.0.0.1:7001/test.js', {
-        s: 123
+        dom: componentDom
       })
       .then((res:any) => {
         if (!eval(res.data)) {
@@ -45,11 +51,13 @@ export default class ViewDisplay extends React.Component<any, any> {
       })
   }
 
+  /**
+   * 松开拖拽图层时
+   */
   onDrop = (e: any) => {
     e.stopPropagation();
-    var data=e.dataTransfer.getData('Text');
-    console.log(data)
-    this.updateDisplay()
+    var data=e.dataTransfer.getData('dom');
+    this.updateDisplay(data);
   }
 
   dragOver = (e: any) => {
@@ -57,6 +65,9 @@ export default class ViewDisplay extends React.Component<any, any> {
   }
   
 
+  /**
+   * 渲染
+   */
   render() {
     const { time } = this.state;
     return (
