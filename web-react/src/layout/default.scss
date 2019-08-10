@@ -20,12 +20,18 @@
   }
 
   .row-box {
+    // display: flex;
     height: calc(100vh - 64px);
+
+    .ant-tabs-bar {
+      margin-bottom: 0;
+    }
   }
 
   // 视图外层
   .view-render-box {
     height: calc(100vh - 64px);
+    // min-width: 400px;
     overflow: hidden;
     background-color: #eee;
     $border: 1px solid #ccc;

@@ -1,0 +1,12 @@
+{
+  "name": "登陆组件测试",
+  "author": "shilaimu",
+  "description": "测试第一个组建池可被编译的组件",
+  "libaray": [],
+  "assets": [],
+  "privateComponent": [
+    "index"
+  ],
+  "publicComponent": [],
+  "style": []
+}
