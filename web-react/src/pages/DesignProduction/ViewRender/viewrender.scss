@@ -65,4 +65,11 @@
     transform: translateY(50%);
     transition: .5s;
   }
+
+  &.drag-status {
+    .delete-box {
+      opacity: 1;
+      transform: translate(0);
+    }
+  }
 }

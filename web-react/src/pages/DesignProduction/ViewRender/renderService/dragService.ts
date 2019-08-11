@@ -32,6 +32,11 @@ let targetElement: (Point|undefined);
  */
 let vueRender: any;
 
+/**
+ * 传染主窗口
+ */
+let mainScreen = document.getElementsByClassName('view-display');
+
 
 export default {
 
@@ -82,6 +87,7 @@ export default {
     point.y = e.offsetY;
     // 划出冷却时间
     outTime = Date.now() + 1000;
+    mainScreen[0].className += ' drag-status';
     // e.dataTransfer.setData('dom','{"name":"loginTest","title":"组件 1"}');
   },
 
@@ -146,6 +152,7 @@ export default {
       });
       targetElement = undefined;
     }
+    mainScreen[0].className = 'view-display';
   },
 
 

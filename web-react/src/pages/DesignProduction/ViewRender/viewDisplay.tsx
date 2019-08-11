@@ -10,9 +10,9 @@ const PtIcon = Icon.createFromIconfontCN({
 });
 
 interface StateModel {
-  time: any,
-  targetComponentList: any[],
-  vueCode: string,
+  time: Date;
+  targetComponentList: any[];
+  vueCode: string;
 }
 
 export default class ViewDisplay extends React.Component<any, any> {
@@ -45,14 +45,6 @@ export default class ViewDisplay extends React.Component<any, any> {
    * 更新视图渲染
    */
   updateDisplay = (componentDom?: any) => {
-    // const script = document.createElement('script');
-    // script.id = 'vue';
-    // script.src = 'http://127.0.0.1:7001/test.js';
-    // document.body.append(script);
-    // const targetComponentList = this.state.targetComponentList
-    // targetComponentList.push(componentDom);
-    // this.setState({ targetComponentList })
-
     axios
       .post(`http://127.0.0.1:7001/${componentDom.name}.js`)
       .then((res:any) => {
@@ -79,7 +71,6 @@ export default class ViewDisplay extends React.Component<any, any> {
   onDrop = (e: any) => {
     e.stopPropagation();
     var data=e.dataTransfer.getData('dom');
-    console.log(data)
     if (data) {
       this.updateDisplay(JSON.parse(data));
     }
