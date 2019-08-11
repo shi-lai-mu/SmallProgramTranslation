@@ -18,6 +18,7 @@
   }
 
   .display-body {
+    overflow: scroll;
     height: calc(100vh - 140px);
     width: 100%;
     background-color: #fff;
