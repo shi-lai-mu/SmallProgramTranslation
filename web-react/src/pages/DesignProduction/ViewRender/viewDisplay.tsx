@@ -3,6 +3,7 @@ import { Icon } from 'antd';
 import config from '../../../config/default';
 import axios from 'axios';
 import renderService from './renderService';
+import dragService from './renderService/dragService';
 
 const PtIcon = Icon.createFromIconfontCN({
   scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
@@ -62,6 +63,7 @@ export default class ViewDisplay extends React.Component<any, any> {
         try {
           const Fn = Function;
           new Fn(renderService.packging())();
+          dragService.vueRenderComplete(renderService);
           this.setState({
             vueCode: res.data
           })
@@ -77,13 +79,16 @@ export default class ViewDisplay extends React.Component<any, any> {
   onDrop = (e: any) => {
     e.stopPropagation();
     var data=e.dataTransfer.getData('dom');
-    this.updateDisplay(JSON.parse(data));
+    console.log(data)
+    if (data) {
+      this.updateDisplay(JSON.parse(data));
+    }
   }
 
   dragOver = (e: any) => {
     e.preventDefault();
   }
-  
+
 
   /**
    * 渲染
@@ -104,12 +109,16 @@ export default class ViewDisplay extends React.Component<any, any> {
         </header>
 
         <div className='display-body' onDrop={this.onDrop} onDragOver={this.dragOver}>
-          <div className={ vueCode ? '' : 'page-not-data'}>
+          <div className={ vueCode ? 'display-box' : 'page-not-data'}>
             <div className='display-render'>
               <PtIcon type='pt-zanwu1'/>
               <span>暂无数据，从组建池内拖入本区域试试？</span>
             </div>
           </div>
+        </div>
+
+        <div className='delete-box'>
+          <Icon type='delete' />
         </div>
         
       </div>

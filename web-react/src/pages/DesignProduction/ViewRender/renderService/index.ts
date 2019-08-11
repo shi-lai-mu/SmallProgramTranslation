@@ -47,14 +47,12 @@ class RenderComponentService extends RenderServiceUtils {
     
     // 加入组件并设唯一渲染标识
     const index =target.components.push(component);
-    // component.tag += '-' + index;
-console.log(component)
+    component.tag += '-' + index;
     this.dataSynthetic(
       component.tag,
       [ 'template', 'data', 'methods', 'publicComponents' ],
       ...[ target, component ]
     );
-    console.log(this.getPage())
     return this;
   }
 
@@ -111,6 +109,31 @@ console.log(component)
 
 
   /**
+   * 重新编译渲染
+   */
+  public reload(cb?: Function) {
+    const that = this;
+    const target = that.getPage();
+    const repage: CreatePageInterface = {
+      name: target.name,
+      template: '',
+      components: target.components,
+      data: '',
+      methods: '',
+      publicComponents: ''
+    };
+    that.setPage(repage);
+    that.dataSynthetic(
+      '',
+      [ 'template', 'data', 'methods', 'publicComponents' ],
+      ...[ repage, ...target.components ]
+    );
+    that.renderData(cb);
+    return that;
+  }
+
+
+  /**
    * 包装程序可编译的字符串
    * 
    * @param packgType 包装类型
@@ -136,6 +159,16 @@ console.log(component)
       .replace('%_DATA_%', targetPage.data)
       .replace('%_METHODS_%', targetPage.methods)
       .replace('%_COMPONENTS_%', targetPage.publicComponents)
+  }
+
+
+  /**
+   * 渲染
+   */
+  renderData(cb?: Function) {
+    const Fn = Function;
+    new Fn(this.packging())();
+    cb && cb();
   }
 }
 

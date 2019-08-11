@@ -24,12 +24,11 @@ export default class RenderServiceUtils {
           pings = '<!--';
           pinge = '-->';
         }
-        dataTarget[key] += `${pings} == ${tag} start == ${pinge}`;
+        dataTarget[key] += `${pings} == ${tag || newData.tag} start == ${pinge}`;
         dataTarget[key] += newData[key];
-        dataTarget[key] += `${pings} == ${tag} end == ${pinge}`;
+        dataTarget[key] += `${pings} == ${tag || newData.tag} end == ${pinge}`;
       })
     })
-    console.log(data)
 
     return this;
   }

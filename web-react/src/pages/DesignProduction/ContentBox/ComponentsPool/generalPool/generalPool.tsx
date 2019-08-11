@@ -50,7 +50,6 @@ export default class GeneralPool extends React.Component<any, any> {
   }
 
   dragstart = (e: any) => {
-    console.log(e.target.dataset)
     e.dataTransfer.setData('dom',JSON.stringify(this.state.data[e.target.dataset.index]));
   }
 
