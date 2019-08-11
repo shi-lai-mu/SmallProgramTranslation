@@ -1,0 +1,60 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": [
+    "react",
+    "typescript"
+  ],
+  "parser": "typescript-eslint-parser",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "no-tabs": 2,
+    "quotes": [2, "single", { "allowTemplateLiterals": true }],
+    "jsx-quotes": [2, "prefer-single"],
+    "eqeqeq": 2,
+    "no-undef": 0,
+    "no-console": "off",
+    "whitespace": false,
+    "no-empty-interface": false,
+    "no-namespace": false,
+    "member-ordering": false,
+    "trailing-comma": false,
+    "jsx-self-close": false,
+    "max-line-length": false,
+    "interface-name": false,
+    "comment-format": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "eofline": false,
+    "jsx-no-lambda": false,
+    "no-trailing-whitespace": false,
+    "jsx-alignment": false,
+    "jsx-wrap-multiline": false,
+    "typescript/class-name-casing": 2,
+    "noUnusedLocals": false,
+    "no-eval": false,
+    "no-shadowed-variable": [
+      false,
+      {
+        "class": true,
+        "enum": true,
+        "function": false,
+        "interface": false,
+        "namespace": true,
+        "typeAlias": false,
+        "typeParameter": false,
+        "import": false,
+      }
+    ]
+  },
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  }
+}
