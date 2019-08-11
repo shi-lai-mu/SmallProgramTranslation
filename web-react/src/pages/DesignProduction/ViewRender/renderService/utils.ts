@@ -7,22 +7,31 @@ export default class RenderServiceUtils {
    * 数据合成 包含识别标识
    * [所有数据都将合入第一个数据内]
    * 
-   * @param data 若干数据
    * @param tag 合成标识
+   * @param key 合成字段
+   * @param data 若干数据
    * @return 合成后的数据
    */
-  public dataSynthetic(tag: string, ...data: string[]): (string|undefined) {
-    let dataTarget: (string|undefined) = data.shift();
+  public dataSynthetic(tag: string, keys: string[], ...data: object[]): RenderServiceUtils {
+    let dataTarget: any = data.shift();
 
     dataTarget === undefined && this.error('组件合并时出错,目标为undefined!');
 
-    data.forEach((newData: string) => {
-      dataTarget += `/* ===== synthetic ${tag} start ==== */`;
-      dataTarget += newData;
-      dataTarget += `/* ===== synthetic ${tag} end ==== */`;
+    data.forEach((newData: any) => {
+      keys.forEach((key: string) => {
+        let pings = '/*', pinge = '*/';
+        if (key === 'template') {
+          pings = '<!--';
+          pinge = '-->';
+        }
+        dataTarget[key] += `${pings} == ${tag} start == ${pinge}`;
+        dataTarget[key] += newData[key];
+        dataTarget[key] += `${pings} == ${tag} end == ${pinge}`;
+      })
     })
+    console.log(data)
 
-    return dataTarget;
+    return this;
   }
 
 

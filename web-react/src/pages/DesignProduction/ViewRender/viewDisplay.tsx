@@ -55,7 +55,7 @@ export default class ViewDisplay extends React.Component<any, any> {
     axios
       .post(`http://127.0.0.1:7001/${componentDom.name}.js`)
       .then((res:any) => {
-        res.data.tag = componentDom.name + Date.now();
+        res.data.tag = componentDom.name;
         renderService.addComponent(res.data)
         // renderService.log()
         try {

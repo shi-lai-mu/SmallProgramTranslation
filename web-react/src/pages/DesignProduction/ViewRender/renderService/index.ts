@@ -2,7 +2,10 @@
  * 渲染编译器 逻辑层
  *    页面处理，组件渲染逻辑
  */
-import { CreatePageInterface } from '../../../../interface/components';
+import {
+  CreatePageInterface, 
+  PageComponent
+} from '../../../../interface/components';
 import RenderServiceUtils from './utils';
 
 /**
@@ -39,14 +42,19 @@ class RenderComponentService extends RenderServiceUtils {
    *
    * @param component 新组建数据
    */
-  public addComponent(component: CreatePageInterface): RenderComponentService {
+  public addComponent(component: PageComponent): RenderComponentService {
     const target = this.getPage();
-    console.log(this.dataSynthetic(target.name + ' methods', target.methods, component.methods, component.methods))
-    target.template += component.template;
-    target.data += component.data;
-    target.methods += component.methods;
-    target.component += component.component;
-    this.setPage(target);
+    
+    // 加入组件并设唯一渲染标识
+    const index =target.components.push(component);
+    // component.tag += '-' + index;
+console.log(component)
+    this.dataSynthetic(
+      component.tag,
+      [ 'template', 'data', 'methods', 'publicComponents' ],
+      ...[ target, component ]
+    );
+    console.log(this.getPage())
     return this;
   }
 
@@ -127,7 +135,7 @@ class RenderComponentService extends RenderServiceUtils {
       .replace('%_INNER_VUE_HTML_%', targetPage.template)
       .replace('%_DATA_%', targetPage.data)
       .replace('%_METHODS_%', targetPage.methods)
-      .replace('%_COMPONENTS_%', targetPage.component)
+      .replace('%_COMPONENTS_%', targetPage.publicComponents)
   }
 }
 
@@ -136,10 +144,10 @@ initRender.createPages(
   {
     name: 'home',
     template: '',
-    component: '',
+    components: [],
     data: '',
     methods: '',
-    tag: 'home12456'
+    publicComponents: ''
   }
 )
 export default initRender;
