@@ -17,3 +17,4 @@ const plugin: EggPlugin = {
 };
 
 export default plugin;
+ 

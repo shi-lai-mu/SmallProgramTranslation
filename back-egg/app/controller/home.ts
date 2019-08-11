@@ -7,7 +7,8 @@ export default class HomeController extends Controller {
   
   public async test() {
     const { ctx } = this;
+    console.log(ctx.params)
     const loginTest = await (await import('../pool/poolLoading'))();
-    ctx.body = await loginTest.vueInterpreter(ctx.request.body.dom);
+    ctx.body = await loginTest.vueInterpreter(ctx.params.test);
   }
 }

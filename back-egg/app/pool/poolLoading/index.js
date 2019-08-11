@@ -13,85 +13,64 @@ module.exports = async () => {
      */
     async vueInterpreter(componentPool) {
       let VUE = {
-        html: '',
+        template: '',
         data: '',
         methods: '',
-        component: '',
+        publicComponents: '',
       };
       
-      for (let com of componentPool) {
-        if (typeof com === 'string') com = JSON.parse(com);
-        /**
-         * 根目录
-         */
-        const __ROOT__ = `../${com.name}`;
+      /**
+       * 根目录
+        */
+      const __ROOT__ = `../${componentPool}`;
 
-        /**
-         * 组件配置
-         */
-        let _poolConfig = {}
+      /**
+       * 组件配置
+        */
+      let _poolConfig = {}
 
-        const cacheData = cache.readCache(__ROOT__);
-        if(cacheData.config) {
-          console.log('使用了缓存');
-        }
-
-        // 私有组件解析
-        const privateComponentPath = `${__ROOT__}/components/private/`;
-        
-        try {
-          _poolConfig = cacheData.config || await require(__ROOT__);
-        } catch(e) {
-          console.error(e);
-          return { msg: `组件 ${com.name} 加载失败!` };
-        }
-
-        // 私有缓存区调用
-        const privateComponentCache = cacheData.privateComponent || [];
-
-        for (const i in _poolConfig.privateComponent) {
-          const PC = privateComponentCache['index.js'] ||  await require(privateComponentPath  + 'index.js');
-
-          VUE.html += PC.vue;
-          VUE.data += PC.defaultData;
-          VUE.methods += PC.methods;
-          VUE.component += PC.components;
-
-          // 私有组件 缓冲写入
-          if (!privateComponentCache['index.js']) {
-            if (!cacheData.privateComponent) cacheData.privateComponent = {};
-            cacheData.privateComponent['index.js'] = PC;
-          }
-        }
-        
-        // 缓冲写入
-        if (!cacheData.config) {
-          cacheData.config = _poolConfig;
-          cache.writeCache(__ROOT__, cacheData);
-        }
+      const cacheData = cache.readCache(__ROOT__);
+      if(cacheData.config) {
+        console.log('使用了缓存');
       }
 
-      let VueTemplate = `
-      !(function(
-          html=\`%_INNER_VUE_HTML_%\`,
-          el='.display-render',
-          data={%_DATA_%},
-          methods={%_METHODS_%},
-          components={%_COMPONENTS_%},
-        ){
-        document.querySelector(el).innerHTML=html;
-        new Vue({el,data,methods,components});
-      })();
-      `;
+      // 私有组件解析
+      const privateComponentPath = `${__ROOT__}/components/private/`;
+      
+      try {
+        _poolConfig = cacheData.config || await require(__ROOT__);
+      } catch(e) {
+        console.error(e);
+        return { msg: `组件 ${componentPool} 加载失败!` };
+      }
 
-      return csjs.miniJs(
-        VueTemplate 
-          .replace('%_INNER_VUE_HTML_%', VUE.html)
-          .replace('%_DATA_%', VUE.data)
-          .replace('%_METHODS_%', VUE.methods)
-          .replace('%_COMPONENTS_%', VUE.component)
-          .replace(/(\t|\n|(\s){2}|(?<=({|}|\(|\)))\s|(?<={{)\s|\s(?=}}))+/g, '')
-      );
+      // 私有缓存区调用
+      const privateComponentCache = cacheData.privateComponent || [];
+
+      for (const i in _poolConfig.privateComponent) {
+        const PC = privateComponentCache['index.js'] ||  await require(privateComponentPath  + 'index.js');
+
+        VUE.template += PC.vue;
+        VUE.data += PC.defaultData;
+        VUE.methods += PC.methods;
+        VUE.publicComponents += PC.components;
+
+        // 私有组件 缓冲写入
+        if (!privateComponentCache['index.js']) {
+          if (!cacheData.privateComponent) cacheData.privateComponent = {};
+          cacheData.privateComponent['index.js'] = PC;
+        }
+      }
+      
+      // 缓冲写入
+      if (!cacheData.config) {
+        cacheData.config = _poolConfig;
+        cache.writeCache(__ROOT__, cacheData);
+      }
+
+      return JSON
+        .stringify(VUE)
+        .replace(/\\n|(\t|\n|↵|(\s){2}|(?<=({|}|\(|\)))\s|(?<={{)\s|\s(?=}})|\s(?=\=)|(?<=\=)\s|(?<=\:)\s|\s(?=\(\)))+/g, '');
     },
 
     /**
