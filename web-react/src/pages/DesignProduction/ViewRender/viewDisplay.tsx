@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Icon } from 'antd';
 import config from '../../../config/default';
 import axios from 'axios';
+import renderService from './renderService';
 
 const PtIcon = Icon.createFromIconfontCN({
   scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
@@ -47,19 +48,19 @@ export default class ViewDisplay extends React.Component<any, any> {
     // script.id = 'vue';
     // script.src = 'http://127.0.0.1:7001/test.js';
     // document.body.append(script);
-    console.log(componentDom)
-    const targetComponentList = this.state.targetComponentList
-    targetComponentList.push(componentDom);
-    this.setState({ targetComponentList })
+    // const targetComponentList = this.state.targetComponentList
+    // targetComponentList.push(componentDom);
+    // this.setState({ targetComponentList })
 
     axios
-      .post('http://127.0.0.1:7001/test.js', {
-        dom: targetComponentList
-      })
+      .post(`http://127.0.0.1:7001/${componentDom.name}.js`)
       .then((res:any) => {
-        // eval(res.data)
+        res.data.tag = componentDom.name + Date.now();
+        renderService.addComponent(res.data)
+        // renderService.log()
         try {
-          eval(res.data);
+          const Fn = Function;
+          new Fn(renderService.packging())();
           this.setState({
             vueCode: res.data
           })
@@ -75,7 +76,7 @@ export default class ViewDisplay extends React.Component<any, any> {
   onDrop = (e: any) => {
     e.stopPropagation();
     var data=e.dataTransfer.getData('dom');
-    this.updateDisplay(data);
+    this.updateDisplay(JSON.parse(data));
   }
 
   dragOver = (e: any) => {

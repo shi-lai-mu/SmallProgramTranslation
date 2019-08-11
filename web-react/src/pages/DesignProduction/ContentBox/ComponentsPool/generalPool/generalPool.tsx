@@ -39,9 +39,9 @@ export default class GeneralPool extends React.Component<any, any> {
     }
   }
 
-  constructor(props: any) {
-    super(props);
-  }
+  // constructor(props: any) {
+  //   super(props);
+  // }
 
   compileTest = () => {
     // axios.get('http://127.0.0.1:7001/test').then(res => {
