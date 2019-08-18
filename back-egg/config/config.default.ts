@@ -1,4 +1,5 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
+import ioConfig from './config.io';
 
 export default (appInfo: EggAppInfo) => {
   const config = {
@@ -52,5 +53,6 @@ export default (appInfo: EggAppInfo) => {
   return {
     ...config,
     ...bizConfig,
+    ...ioConfig,
   };
 };
