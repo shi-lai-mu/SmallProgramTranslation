@@ -1,15 +1,22 @@
 import React from 'react';
 import './style/cloudPacking.scss';
 import { Button, Steps, Divider } from 'antd';
-import { ColudPackgingInterface } from '../../../interface/status'
+import { ColudPackgingInterface } from '../../../interface/status';
+import io from 'socket.io-client';
 const { Step } = Steps;
 
-export default class ColudPackging extends React.Component {
+export default class ColudPackging extends React.Component<any, any> {
 
   state: ColudPackgingInterface = {
     status: false,
     packStatus: 'process',
     packingCurrent: 0,
+  }
+
+  constructor(props: any) {
+    super(props);
+    const socket = io('ws://127.0.0.1:7001');
+    socket.emit('test', { s: 123456 })
   }
 
   /**
