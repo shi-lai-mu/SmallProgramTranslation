@@ -38,8 +38,8 @@
     }
 
     .select-box {
-      transition: 1s;
       border: 1px solid transparent;
+      transition: .5s;
       
       &:hover {
         box-sizing: border-box;

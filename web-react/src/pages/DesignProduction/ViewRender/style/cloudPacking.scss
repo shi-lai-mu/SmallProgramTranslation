@@ -1,0 +1,11 @@
+.cloud-packing {
+  min-height: calc(100vh - 100px);
+  padding: 10px;
+  overflow: scroll;
+  box-sizing: border-box;
+
+  h2 {
+    font-weight: bold;
+    text-align: center;
+  }
+}
