@@ -1,5 +1,3 @@
-import { any } from "prop-types";
-
 // 数据存储
 interface Point {
   x: number;
@@ -80,6 +78,7 @@ export default {
       el.ondragstart = that.ondragstart.bind(that);
       el.ondragend = that.ondragend.bind(that);
       el.ondrag = that.ondrag.bind(that);
+
     });
   },
 

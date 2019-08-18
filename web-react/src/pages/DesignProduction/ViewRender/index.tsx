@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ViewDisplay from './viewDisplay';
+import RenderSetting from './renderSetting/renderSetting';
 import { Tabs, Icon } from 'antd';
 import './viewrender.scss';
 const { TabPane } = Tabs;
@@ -44,6 +45,18 @@ export default class ViewRender extends React.Component {
             key='3'
           >
             <p>日志界面</p>
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <Icon type='setting' />
+                设置
+              </span>
+            }
+            key='4'
+          >
+            <RenderSetting />
           </TabPane>
 
         </Tabs>
