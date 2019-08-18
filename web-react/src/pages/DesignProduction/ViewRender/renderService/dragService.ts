@@ -5,6 +5,8 @@ interface Point {
   x: number;
   y: number;
   el?: any;
+  width?: number,
+  height?: number,
   component: Point[];
 }
 /**
@@ -13,6 +15,8 @@ interface Point {
 const point: Point = {
   x: 0,
   y: 0,
+  width: 0,
+  height: 0,
   component: [],
 };
 
@@ -49,9 +53,10 @@ export default {
     this.each((el:any) => {
       // 存储非目标元素的位置数据
       if (targetEl !== el) {
+        const { offsetLeft, offsetTop } = el;
         point.component.push({
-          x: el.offsetLeft,
-          y: el.offsetTop,
+          x: offsetLeft,
+          y: offsetTop,
           component: [],
           el,
         });
@@ -70,11 +75,11 @@ export default {
 
     // 事件处理
     that.each((el: any, index: number) => {
+      el.dataset.i = index;
       el.draggable = true;
       el.ondragstart = that.ondragstart.bind(that);
-      el.ondrag = that.ondrag.bind(that);
       el.ondragend = that.ondragend.bind(that);
-      el.dataset.i = index;
+      el.ondrag = that.ondrag.bind(that);
     });
   },
 
@@ -85,8 +90,10 @@ export default {
   ondragstart(e: any): void {
     point.x = e.offsetX;
     point.y = e.offsetY;
+    point.width = e.target.offsetWidth;
     // 划出冷却时间
     outTime = Date.now() + 1000;
+    e.target.className += ' drag-move';
     mainScreen[0].className += ' drag-status';
     // e.dataTransfer.setData('dom','{"name":"loginTest","title":"组件 1"}');
   },
@@ -99,7 +106,7 @@ export default {
     const that = this;
     e.target.style.cssText = `
       position: fixed;
-      width: ${e.target.offsetWidth}px;
+      width: ${point.width}px;
       left: ${e.clientX - point.x}px;
       top: ${e.clientY - point.y}px;
     `;
@@ -139,7 +146,7 @@ export default {
    */
   ondragend(e: any): void {
     const that = this;
-    e.target.style.cssText = '';
+    // 清除上次的目标元素
     if (targetElement) {
       targetElement.el.style.cssText = '';
       console.log(targetElement.el.dataset.i, vueRender.getPage().components)
@@ -152,7 +159,10 @@ export default {
       });
       targetElement = undefined;
     }
+    // 归位
+    e.target.style.cssText = '';
     mainScreen[0].className = 'view-display';
+    e.target.className = 'select-box';
   },
 
 

@@ -38,11 +38,16 @@
     }
 
     .select-box {
+      transition: 1s;
       border: 1px solid transparent;
       
       &:hover {
         box-sizing: border-box;
         border: 1px dashed #12cff0;
+      }
+
+      &.drag-move {
+        transition: 0s;
       }
     }
   }

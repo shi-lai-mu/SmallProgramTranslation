@@ -1,6 +1,6 @@
 module.exports = {
   vue: `
-    <div class="input-group">
+    <div class="select-box">
       <hr>
         <div class="input-row border">
             <span class="title">实时测试</span>

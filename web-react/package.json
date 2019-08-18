@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "react-app-rewired build",
+    "build": "node scripts/build.js",
     "test": "react-app-rewired test"
   },
   "eslintConfig": {
@@ -23,7 +23,7 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "7.4.3",
+    "@babel/core": "^7.5.5",
     "@svgr/webpack": "4.1.0",
     "@typescript-eslint/eslint-plugin": "1.6.0",
     "@typescript-eslint/parser": "1.6.0",
@@ -75,6 +75,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.1.1",
     "redux-thunk": "^2.3.0",
     "resolve": "1.10.0",
     "sass": "^1.22.4",
