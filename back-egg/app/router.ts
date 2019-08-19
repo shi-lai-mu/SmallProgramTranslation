@@ -3,7 +3,7 @@ import { Application } from 'egg';
 export default (app: Application) => {
   const { controller, router } = app;
 
-  router.post('/test', controller.home.test);
+  router.post('/:test.js', controller.home.test);
 
   require('./io/router').default(app);
 };

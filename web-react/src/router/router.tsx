@@ -4,6 +4,12 @@ import About from '../pages/About';
 
 const Routers: Array<any> = [
   {
+    path: '/',
+    name: '首页',
+    isShow: false,
+    component: About,
+  },
+  {
     path: '/design/',
     name: '设计区',
     isShow: true,
