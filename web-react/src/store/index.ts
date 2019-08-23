@@ -1,29 +1,5 @@
-import { createStore, combineReducers } from 'redux';
+import Test from './test';
 
-
-const defaultReducer = () => {
-  return {
-    cart: [
-      {
-        product: 'bread 700g',
-        quantity: 2,
-        unitCost: 90
-      },
-      {
-        product: 'milk 500ml',
-        quantity: 1,
-        unitCost: 47
-      }
-    ]
-  };
-}
-
-const rootReducer = combineReducers({
-  defaultReducer,
-});
-const store = createStore(rootReducer);
-
-export {
-  store
+export default {
+  Test
 };
-console.log('initial state: ', store.getState());

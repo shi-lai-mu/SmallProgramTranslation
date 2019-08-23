@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DefaultLayout from '../../layout/default'
-import {Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import ViewRender from './ViewRender/ViewRender';
 import ContentBox from './ContentBox/ContentBox'
 

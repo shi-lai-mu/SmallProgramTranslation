@@ -9,7 +9,6 @@ import PoolModal from './poolModal';
 
 export default class GeneralPool extends React.Component<any, any> {
 
-
   state = {
     data: [
       {
@@ -37,16 +36,6 @@ export default class GeneralPool extends React.Component<any, any> {
     target: {
       title: ''
     }
-  }
-
-  // constructor(props: any) {
-  //   super(props);
-  // }
-
-  compileTest = () => {
-    // axios.get('http://127.0.0.1:7001/test').then(res => {
-    //   console.log(res.data)
-    // })
   }
 
   dragstart = (e: any) => {

@@ -4,6 +4,7 @@ import config from '../../../config/default';
 import axios from 'axios';
 import renderService from './renderService';
 import dragService from './renderService/dragService';
+import { observer, inject } from 'mobx-react'
 
 const PtIcon = Icon.createFromIconfontCN({
   scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
@@ -14,7 +15,18 @@ interface StateModel {
   targetComponentList: any[];
   vueCode: string;
 }
+interface Props {
+  num: number;
+}
 
+@inject((store: { Test: any }) => {
+  return {
+    count: store.Test.num,
+    addNum: store.Test.addNum,
+  }
+})
+
+@observer
 export default class ViewDisplay extends React.Component<any, any> {
 
   state:StateModel = {
@@ -86,6 +98,8 @@ export default class ViewDisplay extends React.Component<any, any> {
    */
   render() {
     const { time, vueCode } = this.state;
+    const { count, addNum } = this.props;
+    console.log(this.props)
     return (
       <div className='view-display'>
 
@@ -103,7 +117,8 @@ export default class ViewDisplay extends React.Component<any, any> {
           <div className={ vueCode ? 'display-box' : 'page-not-data'}>
             <div className='display-render'>
               <PtIcon type='pt-zanwu1'/>
-              <span>暂无数据，从组建池内拖入本区域试试？</span>
+              <span>暂无数据，从组建池内拖入本区域试试？{ count }</span>
+              <button onClick={addNum}>123456</button>
             </div>
           </div>
         </div>

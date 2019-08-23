@@ -9,15 +9,6 @@ interface PoolModalModel {
 }
 
 export default class PoolModal extends React.Component<PoolModalModel, any> {
-
-  // constructor(props: PoolModalModel) {
-  //   super(props);
-  // }
-
-  state = {
-    visible: true
-  }
-
   render () {
     return (
       <Tabs >

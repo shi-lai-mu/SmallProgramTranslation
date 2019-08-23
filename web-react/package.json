@@ -88,7 +88,6 @@
     "ts-pnp": "1.1.2",
     "tslint": "^5.18.0",
     "url-loader": "1.1.2",
-    "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "4.2.0"
@@ -111,7 +110,8 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "typescript": "^3.5.3",
-    "typescript-eslint-parser": "^22.0.0"
+    "typescript-eslint-parser": "^22.0.0",
+    "webpack": "^4.29.6"
   },
   "jest": {
     "collectCoverageFrom": [
