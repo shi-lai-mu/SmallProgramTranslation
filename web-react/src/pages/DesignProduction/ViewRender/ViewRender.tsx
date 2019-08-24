@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ViewDisplay from './viewDisplay';
 import RenderSetting from './renderSetting/renderSetting';
-import ColudPacking from './cloudPacking';
+import ColudPacking from './cloudPacking/cloudPacking';
 import { Tabs, Icon } from 'antd';
 import './style/viewrender.scss';
 const { TabPane } = Tabs;
@@ -10,7 +10,7 @@ export default class ViewRender extends React.Component {
   render() {
     return (
       <div className='card-container view-render'>
-        <Tabs                                                     >
+        <Tabs defaultActiveKey="2">
 
           <TabPane
             tab={
