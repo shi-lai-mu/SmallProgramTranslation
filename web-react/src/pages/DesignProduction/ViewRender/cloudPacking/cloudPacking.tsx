@@ -1,8 +1,10 @@
 import React from 'react'
 import { Button, Steps, Divider } from 'antd'
-import { ColudPackgingInterface } from '../../../../interface/status'
 import io from 'socket.io-client'
 import { inject } from 'mobx-react'
+
+import { ColudPackgingInterface } from '../../../../interface/status'
+
 import PackProcess from './packProcess'
 import '../style/cloudPacking.scss'
 const { Step } = Steps;
@@ -19,6 +21,7 @@ export default class ColudPackging extends React.Component<any, any> {
     status: false,
     packStatus: 'process',
     packingCurrent: 0,
+    errMsg: '',
   }
 
   constructor(props: any) {
@@ -32,13 +35,19 @@ export default class ColudPackging extends React.Component<any, any> {
    */
   coludPacking = () => {
     const that = this;
-    this.setState({
+    that.setState({
       status: !that.state.status
     })
-    const PaPr = new PackProcess()
-    PaPr.progress((status, process, index)=> {
-      this.setState({
-        packingCurrent: ++that.state.packingCurrent
+    const PaPr = new PackProcess(that.props.pageData)
+    let step = that.state.packingCurrent
+    // 执行打包过程
+    PaPr.progress(status => {
+      !status.errMsg && ++step
+      that.setState({
+        packStatus: status.errMsg ? 'error' : 'process',
+        packingCurrent: step,
+        status: !status.errMsg,
+        errMsg: status.errMsg,
       })
       console.log(status)
       return true
@@ -54,24 +63,26 @@ export default class ColudPackging extends React.Component<any, any> {
       status,
       packingCurrent,
       packStatus,
+      errMsg,
     } = this.state;
 
     return (
       <div className="cloud-packing">
         <h2>云打包 [测试版]</h2>
         <Button
-          type="primary"
+          type={!errMsg ? 'primary' : 'danger'}
           icon="download"
           onClick={coludPacking}
           loading={status}
-        >开始</Button>
+          style={{ display: 'block', margin: '0 auto' }}
+        >{!errMsg ? '开始' : errMsg}</Button>
         <Divider>进度</Divider>
 
 
         <Steps direction="vertical" size="small" current={packingCurrent} status={packStatus}>
           {
             PackProcess.process.map((item, index) => (
-              <Step title={item.title} description={item.desc} key={`packProcess-${index}`} />
+              <Step title={item.title} description={packingCurrent === index ? item.desc : ''} key={`packProcess-${index}`} />
             ))
           }
         </Steps>
