@@ -60,7 +60,7 @@ class DragService {
   private initPoint(targetEl?: Element): Point {
     const point = this.point;
     point.component = [];
-    DragService.each((el:any) => {
+    DragService.each((el: any) => {
       // 存储非目标元素的位置数据
       if (targetEl !== el) {
         const { offsetLeft, offsetTop } = el;

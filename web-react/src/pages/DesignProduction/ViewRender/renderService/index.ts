@@ -18,12 +18,10 @@ const __PAGE__: any = {};
  */
 const __PAGE_ORDER__: string[] = [];
 
+
 /**
- * 组建池数据
+ * class RenderComponentService
  */
-// const __COMPONENTS__: string[] = [];
-
-
 class RenderComponentService extends RenderServiceUtils {
 
   /**
@@ -36,6 +34,20 @@ class RenderComponentService extends RenderServiceUtils {
    */
   public render: number = 0;
 
+  /**
+   * 目标名称
+   */
+  public get targetName(): string {
+    return __PAGE_ORDER__[this.target];
+  }
+
+  /**
+   * 返回全部页面
+   */
+  public get pageAll() {
+    return __PAGE__;
+  }
+
 
   /**
    * 添加组建
@@ -46,7 +58,7 @@ class RenderComponentService extends RenderServiceUtils {
     const target = this.page;
     
     // 加入组件并设唯一渲染标识
-    const index =target.components.push(component);
+    const index = target.components.push(component);
     component.tag += '-' + index;
     this.dataSynthetic(
       component.tag,

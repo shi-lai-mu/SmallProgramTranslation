@@ -15,21 +15,23 @@ interface StateModel {
   targetComponentList: any[];
   vueCode: string;
 }
-interface Props {
-  num: number;
+
+interface componentData {
+  name: string;
+  title: string;
 }
 
-@inject((store: { Test: any }) => {
+@inject((store: { pagePool: any }) => {
   return {
-    count: store.Test.num,
-    addNum: store.Test.addNum,
+    storeSetPageData: store.pagePool.setPage,
+    page: store.pagePool.page
   }
 })
 
 @observer
 export default class ViewDisplay extends React.Component<any, any> {
 
-  state:StateModel = {
+  state: StateModel = {
     time: new Date(),
     targetComponentList: [],
     vueCode: ''
@@ -52,16 +54,15 @@ export default class ViewDisplay extends React.Component<any, any> {
     document.body.append(vue);
   }
 
-
   /**
    * 更新视图渲染
    */
-  updateDisplay = (componentDom?: any) => {
+  public updateDisplay = (componentData: componentData) => {
     axios
-      .post(`http://127.0.0.1:7001/${componentDom.name}.js`)
-      .then((res:any) => {
+      .post(`http://127.0.0.1:7001/${componentData.name}.js`)
+      .then((res: any) => {
         // 设定标签 并添加入组件库
-        res.data.tag = componentDom.name;
+        res.data.name = res.data.tag = componentData.name;
         renderService.addComponent(res.data)
 
         try {
@@ -71,6 +72,9 @@ export default class ViewDisplay extends React.Component<any, any> {
           this.setState({
             vueCode: res.data
           })
+          // 数据装入store
+          const name = renderService.targetName;
+          this.props.storeSetPageData(name, renderService.pageAll[name]);
         } catch (e) {
           throw Error('视图渲染失: ' + e);
         }
@@ -80,7 +84,7 @@ export default class ViewDisplay extends React.Component<any, any> {
   /**
    * 松开拖拽图层时
    */
-  onDrop = (e: any) => {
+  private onDrop = (e: any) => {
     e.stopPropagation();
     var data=e.dataTransfer.getData('dom');
     if (data) {
@@ -88,7 +92,10 @@ export default class ViewDisplay extends React.Component<any, any> {
     }
   }
 
-  dragOver = (e: any) => {
+  /**
+   * 悬浮于拖放区域时
+   */
+  private dragOver = (e: any) => {
     e.preventDefault();
   }
 
@@ -96,10 +103,8 @@ export default class ViewDisplay extends React.Component<any, any> {
   /**
    * 渲染
    */
-  render() {
+  public render() {
     const { time, vueCode } = this.state;
-    const { count, addNum } = this.props;
-    console.log(this.props)
     return (
       <div className='view-display'>
 
@@ -117,8 +122,7 @@ export default class ViewDisplay extends React.Component<any, any> {
           <div className={ vueCode ? 'display-box' : 'page-not-data'}>
             <div className='display-render'>
               <PtIcon type='pt-zanwu1'/>
-              <span>暂无数据，从组建池内拖入本区域试试？{ count }</span>
-              <button onClick={addNum}>123456</button>
+              <span>暂无数据，从组建池内拖入本区域试试？</span>
             </div>
           </div>
         </div>
