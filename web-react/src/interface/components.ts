@@ -3,7 +3,7 @@
 /**
  * 创建页面 接口
  */
-export interface CreatePageInterface {
+export interface PageInterface {
   /**
    * 页面名字
    */
@@ -47,6 +47,14 @@ export interface CreatePageInterface {
  * 页面组件
  */
 export interface PageComponent {
+  /**
+   * 组件名称
+   */
+  name?: string;
+  /**
+   * 用户设置
+   */
+  setting: any;
   /**
    * 组件唯一标识
    */
