@@ -1,3 +1,4 @@
+import { RCS } from '../renderService/index'
 // 数据存储
 interface Point {
   x: number;
@@ -22,13 +23,16 @@ let targetElement: (Point|undefined);
 /**
  * vue渲染逻辑层接口
  */
-let vueRender: any;
+let vueRender: RCS['RenderComponentService'];
 
 /**
  * 传染主窗口
  */
 let mainScreen = document.getElementsByClassName('view-display');
 
+/**
+ * class DragService
+ */
 class DragService {
 
   /**
@@ -40,6 +44,13 @@ class DragService {
     width: 0,
     height: 0,
     component: [],
+  }
+
+  /**
+   * 获取当前组件信息
+   */
+  public get pageComponent() {
+    return vueRender.page;
   }
 
   /**
@@ -59,7 +70,6 @@ class DragService {
           component: [],
           el,
         });
-        console.log(point)
       }
     });
     return point;
@@ -69,7 +79,7 @@ class DragService {
   /**
    * vue渲染完成
    */
-  public vueRenderComplete(renderService?: any): void {
+  public vueRenderComplete(renderService?: RCS['RenderComponentService']): void {
     const that = this;
     vueRender = vueRender || renderService;
 
@@ -151,8 +161,7 @@ class DragService {
     // 清除上次的目标元素
     if (targetElement) {
       targetElement.el.style.cssText = '';
-      console.log(targetElement.el.dataset.i, vueRender.getPage().components)
-      const components = vueRender.getPage().components;
+      const components = vueRender.page.components;
       const target =  components.splice(e.target.dataset.i, 1);
       components.splice(targetElement.el.dataset.i, 0 , ...target);
       // 调用重新渲染

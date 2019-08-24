@@ -43,7 +43,7 @@ class RenderComponentService extends RenderServiceUtils {
    * @param component 新组建数据
    */
   public addComponent(component: PageComponent): RenderComponentService {
-    const target = this.getPage();
+    const target = this.page;
     
     // 加入组件并设唯一渲染标识
     const index =target.components.push(component);
@@ -90,7 +90,7 @@ class RenderComponentService extends RenderServiceUtils {
   /**
    * 获取渲染页面数据
    */
-  public getPage(): CreatePageInterface {
+  public get page(): CreatePageInterface {
     return __PAGE__[__PAGE_ORDER__[this.target]];
   }
 
@@ -113,7 +113,7 @@ class RenderComponentService extends RenderServiceUtils {
    */
   public reload(cb?: Function) {
     const that = this;
-    const target = that.getPage();
+    const target = that.page;
     const repage: CreatePageInterface = {
       name: target.name,
       template: '',
@@ -139,7 +139,7 @@ class RenderComponentService extends RenderServiceUtils {
    * @param packgType 包装类型
    */
   public packging(packgType: string = 'template'): string {
-    const targetPage = this.getPage();
+    const targetPage = this.page;
     
     let VueTemplate: string = `
     !(function(
@@ -183,4 +183,11 @@ initRender.createPages(
     publicComponents: ''
   }
 )
+
+
+export interface RCS {
+  RenderComponentService: RenderComponentService;
+  RenderServiceUtils: RenderServiceUtils;
+};
+
 export default initRender;
