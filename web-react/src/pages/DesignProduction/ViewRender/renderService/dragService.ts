@@ -7,16 +7,6 @@ interface Point {
   height?: number,
   component: Point[];
 }
-/**
- * 组件定位信息
- */
-const point: Point = {
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  component: [],
-};
 
 /**
  * 元素遍历缓存
@@ -39,16 +29,27 @@ let vueRender: any;
  */
 let mainScreen = document.getElementsByClassName('view-display');
 
+class DragService {
 
-export default {
+  /**
+   * 组件定位信息
+   */
+  public point: Point = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    component: [],
+  }
 
   /**
    * 初始化位置数据
    * @param targetEl 目标元素[用于排除目标]
    */
-  initPoint(targetEl?: Element): Point {
+  private initPoint(targetEl?: Element): Point {
+    const point = this.point;
     point.component = [];
-    this.each((el:any) => {
+    DragService.each((el:any) => {
       // 存储非目标元素的位置数据
       if (targetEl !== el) {
         const { offsetLeft, offsetTop } = el;
@@ -58,34 +59,36 @@ export default {
           component: [],
           el,
         });
+        console.log(point)
       }
     });
     return point;
-  },
+  }
 
 
   /**
    * vue渲染完成
    */
-  vueRenderComplete(renderService?: any): void {
+  public vueRenderComplete(renderService?: any): void {
     const that = this;
     vueRender = vueRender || renderService;
 
     // 事件处理
-    that.each((el: any, index: number) => {
+    DragService.each((el: any, index: number) => {
       el.dataset.i = index;
       el.draggable = true;
-      el.ondragstart = that.ondragstart.bind(that);
-      el.ondragend = that.ondragend.bind(that);
-      el.ondrag = that.ondrag.bind(that);
+      el.ondragstart = that.dragstartEvent.bind(that);
+      el.ondragend = that.dragendEvent.bind(that);
+      el.ondrag = that.dragEvent.bind(that);
     });
-  },
+  }
 
 
   /**
    * 开始拖拽
    */
-  ondragstart(e: any): void {
+  private dragstartEvent(e: any): void {
+    const point = this.point;
     point.x = e.offsetX;
     point.y = e.offsetY;
     point.width = e.target.offsetWidth;
@@ -93,15 +96,17 @@ export default {
     outTime = Date.now() + 1000;
     e.target.className += ' drag-move';
     mainScreen[0].className += ' drag-status';
+    // 记录其他目标位置
+    this.initPoint(e.target);
     // e.dataTransfer.setData('dom','{"name":"loginTest","title":"组件 1"}');
-  },
+  }
 
 
   /**
    * 拖拽时
    */
-  ondrag(e: any): void {
-    const that = this;
+  private dragEvent(e: any): void {
+    const point = this.point;
     e.target.style.cssText = `
       position: fixed;
       width: ${point.width}px;
@@ -113,7 +118,6 @@ export default {
     if (outTime < Date.now()) {
       outTime = Date.now() + 500;
       // 取得鼠标目标元素
-      that.initPoint(e.target);
       for (const Item of point.component) {
         if (
           (Item.y < e.clientY && Item.x < e.clientX) &&
@@ -136,13 +140,13 @@ export default {
       }
     }
 
-  },
+  }
 
 
   /**
    * 结束拖拽
    */
-  ondragend(e: any): void {
+  private dragendEvent(e: any): void {
     const that = this;
     // 清除上次的目标元素
     if (targetElement) {
@@ -161,13 +165,13 @@ export default {
     e.target.style.cssText = '';
     mainScreen[0].className = 'view-display';
     e.target.className = 'select-box';
-  },
+  }
 
 
   /**
    * 元素可拖拽遍历
    */
-  each(cb: (value: Element, index: number, array: Element[]) => void): void {
+  static each(cb: (value: Element, index: number, array: Element[]) => void): void {
     elementChache = elementChache || document.getElementsByClassName('select-box');
 
     // 事件处理
@@ -176,3 +180,5 @@ export default {
       .forEach(cb);
   }
 }
+
+export default new DragService()
