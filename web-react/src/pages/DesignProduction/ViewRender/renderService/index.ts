@@ -3,7 +3,7 @@
  *    页面处理，组件渲染逻辑
  */
 import {
-  CreatePageInterface, 
+  PageInterface, 
   PageComponent
 } from '../../../../interface/components';
 import RenderServiceUtils from './utils';
@@ -76,7 +76,7 @@ class RenderComponentService extends RenderServiceUtils {
    * @param repeat 重复创建 
    * @return RenderComponentService class
    */
-  public createPages(option: CreatePageInterface, repeat: number = 1): RenderComponentService {
+  public createPages(option: PageInterface, repeat: number = 1): RenderComponentService {
     __PAGE__[option.name] = option;
     __PAGE_ORDER__.push(option.name);
     repeat--;
@@ -102,7 +102,7 @@ class RenderComponentService extends RenderServiceUtils {
   /**
    * 获取渲染页面数据
    */
-  public get page(): CreatePageInterface {
+  public get page(): PageInterface {
     return __PAGE__[__PAGE_ORDER__[this.target]];
   }
 
@@ -114,7 +114,7 @@ class RenderComponentService extends RenderServiceUtils {
    * @param target 目标页面 默认上一次操作的目标
    * @return RenderComponentService class
    */
-  public setPage(data: CreatePageInterface, target: string = ''): RenderComponentService {
+  public setPage(data: PageInterface, target: string = ''): RenderComponentService {
     __PAGE__[target || __PAGE_ORDER__[this.target]] = data;
     return this;
   }
@@ -126,7 +126,7 @@ class RenderComponentService extends RenderServiceUtils {
   public reload(cb?: Function) {
     const that = this;
     const target = that.page;
-    const repage: CreatePageInterface = {
+    const repage: PageInterface = {
       name: target.name,
       template: '',
       components: target.components,
