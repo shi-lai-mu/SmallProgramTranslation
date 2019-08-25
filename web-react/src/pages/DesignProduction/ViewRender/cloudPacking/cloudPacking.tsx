@@ -26,10 +26,9 @@ export default class ColudPackging extends React.Component<any, any> {
     errMsg: '',
   }
 
-  constructor(props: any) {
-    super(props)
-    props.getIO().emit('test', { s: 654 })
-  }
+  // constructor(props: any) {
+  //   super(props)
+  // }
 
   /**
    * 云打包
@@ -39,7 +38,7 @@ export default class ColudPackging extends React.Component<any, any> {
     that.setState({
       status: !that.state.status
     })
-    const PaPr = new PackProcess(that.props.pageData)
+    const PaPr = new PackProcess(that.props.pageData, that.props.getIO)
     const progressMsg: any = [];
 
     // 初始化打包
@@ -60,8 +59,9 @@ export default class ColudPackging extends React.Component<any, any> {
         errMsg: status.errMsg,
         progressMsg,
       })
-      console.log(runQuery)
-      return true
+      return runQuery.status
+    }, (index: number) => {
+      console.log(index)
     })
   }
 
@@ -87,7 +87,7 @@ export default class ColudPackging extends React.Component<any, any> {
           onClick={coludPacking}
           loading={status}
           style={{ display: 'block', margin: '0 auto' }}
-        >{!errMsg ? '开始' : errMsg}</Button>
+        >{!errMsg ? '开始' : '重试'}</Button>
         <Divider>进度</Divider>
 
 

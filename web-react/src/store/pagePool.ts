@@ -48,7 +48,7 @@ class PagePool {
   /**
    * 设置页面数据
    */
-  public getIO = (io: any): void => {
+  public get getIO() {
     return this.io;
   }
 }

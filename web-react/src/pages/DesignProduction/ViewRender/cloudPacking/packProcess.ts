@@ -11,18 +11,17 @@ import PackService from './packService';
  * class PackProcess
  */
 class PackProcess extends PackService {
-
-  constructor(pagePool: PageInterface[]) {
-    super();
-    this.pagePool = pagePool;
-  }
-
   [index: string]: any;
 
   /**
    * 页面数据
    */
   private pagePool: any;
+
+  /**
+   * socket.io
+   */
+  private io: any;
 
   /**
    * 运行转台
@@ -43,6 +42,12 @@ class PackProcess extends PackService {
    * 打包过程
    */
   static process: Process[] = processData;
+
+  constructor(pagePool: PageInterface[], io: any) {
+    super();
+    this.pagePool = pagePool;
+    this.io = io;
+  }
 
   /**
    * 目前包装的状态
@@ -67,28 +72,47 @@ class PackProcess extends PackService {
   /**
    * 打包进度执行
    */
-  public progress(
-    cb: (status: PackStatus, process: Process, index: number, runQuery: { status: boolean; msg: string }) => boolean
-  ): void {
+  public async  progress(
+    cb: (status: PackStatus, process: Process, index: number, runQuery: { status: boolean; msg: string }) => boolean,
+    loading?: (index: number) => void
+  ) {
     // 中途出错直接停止
     const process: Process[] = PackProcess.process;
-    // 跟进进度
-    for (let i = 0, len = process.length; i < len; i++) {
-      const item = process[i];
-      let runQuery: { status: boolean; msg: string } = {
-        status: false,
-        msg: ''
-      };
-      if (item.action !== undefined) {
-        if (this[item.action]) {
-          runQuery = this[item.action]();
-          if (!runQuery.status) this.error = runQuery.msg;
-        } else {
-          this.error = `未找到[${item.title}]操作!`;
+    // 跟进进度 递归异步进行
+    const that: PackProcess = this;
+    (async () => {
+      let i: number = 0;
+      let clock: any = undefined;
+
+      async function recursive() {
+        const item = process[i];
+        let runQuery: { status: boolean; msg: string } = {
+          status: false,
+          msg: ''
+        };
+        clearTimeout(clock);
+        if (item.action !== undefined) {
+          if (that[item.action]) {
+            // 操作超时判断
+            clock = setTimeout(() => {
+              that.error = '操作超时!';
+              cb(that.packStatus, item, i, runQuery)
+            }, 10000);
+            loading && loading(i);
+            // 同步执行操作
+            runQuery = await that[item.action]();
+            if (!runQuery.status) that.error = runQuery.msg;
+          } else {
+            that.error = `未找到[${item.title}]操作!`;
+          }
+          i++;
+          // 如果 回调返回true 且 无错误 则 继续递归
+          if (cb(that.packStatus, item, i, runQuery) && !that.errMsg) recursive();
         }
-        if (!cb(this.packStatus, item, i, runQuery) || this.errMsg) break;
+        return recursive;
       }
-    }
+      return recursive();
+    })();
   }
 }
 

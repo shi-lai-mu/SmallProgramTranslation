@@ -5,13 +5,13 @@ import {
 const processData: Process[] = [
   {
     title: '检查TREE',
-    desc: '如果我们的树准备就绪, 它将会发往云。',
+    desc: '如果我们的数据准备就绪, 它将会发往服务器。',
     action: 'checkTreeDom',
   },
   {
-    title: '云签收成功',
+    title: '云签收',
     desc: '服务器并非繁忙状态, 且允许我们进行此操作。',
-    action: '',
+    action: 'emitCloud',
   },
   {
     title: '编译对象指定[微信]',

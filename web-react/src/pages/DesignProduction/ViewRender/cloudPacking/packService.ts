@@ -38,7 +38,6 @@ export default class packService {
           TreeDom: TreeDom[] = [];
   
         pageComList.forEach((component: PageComponent) => {
-          console.log(component)
           const {name, setting} = component;
           TreeDom.push({
             name,
@@ -59,6 +58,24 @@ export default class packService {
     return {
       status: !errMsg,
       msg: errMsg || printMsg
+    }
+  }
+
+
+  /**
+   * 云签收
+   */
+  public async emitCloud() {
+    this.io.emit('busyCheck', this.pageDom);
+    await new Promise((resolve, reject) => {
+      this.io.on('busyCheck', (res: any) => {
+        resolve(res)
+      });
+    })
+
+    return {
+      status: true,
+      msg: 'ok'
     }
   }
 }
