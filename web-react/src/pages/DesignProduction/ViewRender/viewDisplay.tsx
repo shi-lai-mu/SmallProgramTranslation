@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Icon } from 'antd';
 import config from '../../../config/default';
-import axios from 'axios';
+// import axios from 'axios';
 import renderService from './renderService';
 import dragService from './renderService/dragService';
-import { observer, inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react';
 
 const PtIcon = Icon.createFromIconfontCN({
   scriptUrl: config.iconfontUrl, // 在 iconfont.cn 上生成
@@ -14,19 +14,18 @@ interface StateModel {
   time: Date;
   targetComponentList: any[];
   vueCode: string;
-}
+};
 
 interface componentData {
   name: string;
   title: string;
-}
+};
 
-@inject((store: { pagePool: any }) => {
-  return {
-    storeSetPageData: store.pagePool.setPage,
-    page: store.pagePool.page
-  }
-})
+@inject((store: { pagePool: any }) => ({
+  storeSetPageData: store.pagePool.setPage,
+  page: store.pagePool.page,
+  getIO: store.pagePool.getIO,
+}))
 
 @observer
 export default class ViewDisplay extends React.Component<any, any> {
@@ -52,33 +51,55 @@ export default class ViewDisplay extends React.Component<any, any> {
     const vue = document.createElement('script');
     vue.src = config.vueCDN;
     document.body.append(vue);
+
+    // 组件更新绑定
+    this.props.getIO.on('addComponentData', (res: any) => {
+      // 设定标签 并添加入组件库
+      res.tag = res.name;
+      renderService.addComponent(res)
+
+      try {
+        const Fn = Function;
+        new Fn(renderService.packging())();
+        dragService.vueRenderComplete(renderService);
+        this.setState({
+          vueCode: res
+        })
+        // 数据装入store
+        const name = renderService.targetName;
+        this.props.storeSetPageData(name, renderService.pageAll[name]);
+      } catch (e) {
+        throw Error('视图渲染失: ' + e);
+      }
+    })
   }
 
   /**
    * 更新视图渲染
    */
   public updateDisplay = (componentData: componentData) => {
-    axios
-      .post(`http://127.0.0.1:7001/${componentData.name}.js`)
-      .then((res: any) => {
-        // 设定标签 并添加入组件库
-        res.data.name = res.data.tag = componentData.name;
-        renderService.addComponent(res.data)
+    this.props.getIO.emit('getComponentData', componentData.name);
+    // axios
+    //   .post(`http://127.0.0.1:7001/${componentData.name}.js`)
+    //   .then((res: any) => {
+    //     // 设定标签 并添加入组件库
+    //     res.data.name = res.data.tag = componentData.name;
+    //     renderService.addComponent(res.data)
 
-        try {
-          const Fn = Function;
-          new Fn(renderService.packging())();
-          dragService.vueRenderComplete(renderService);
-          this.setState({
-            vueCode: res.data
-          })
-          // 数据装入store
-          const name = renderService.targetName;
-          this.props.storeSetPageData(name, renderService.pageAll[name]);
-        } catch (e) {
-          throw Error('视图渲染失: ' + e);
-        }
-      })
+    //     try {
+    //       const Fn = Function;
+    //       new Fn(renderService.packging())();
+    //       dragService.vueRenderComplete(renderService);
+    //       this.setState({
+    //         vueCode: res.data
+    //       })
+    //       // 数据装入store
+    //       const name = renderService.targetName;
+    //       this.props.storeSetPageData(name, renderService.pageAll[name]);
+    //     } catch (e) {
+    //       throw Error('视图渲染失: ' + e);
+    //     }
+    //   })
   }
 
   /**

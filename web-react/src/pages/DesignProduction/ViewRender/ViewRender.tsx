@@ -26,7 +26,7 @@ export default class ViewRender extends React.Component {
   render() {
     return (
       <div className='card-container view-render'>
-        <Tabs defaultActiveKey="2">
+        <Tabs defaultActiveKey="1">
 
           <TabPane
             tab={

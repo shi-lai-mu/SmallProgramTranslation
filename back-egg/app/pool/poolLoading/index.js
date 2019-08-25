@@ -30,9 +30,6 @@ module.exports = async () => {
       let _poolConfig = {}
 
       const cacheData = cache.readCache(__ROOT__);
-      if(cacheData.config) {
-        console.log('使用了缓存');
-      }
 
       // 私有组件解析
       const privateComponentPath = `${__ROOT__}/components/private/`;

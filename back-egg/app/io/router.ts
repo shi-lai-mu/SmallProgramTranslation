@@ -7,4 +7,6 @@ export default (app: any) => {
     ic = io.controller;
 
   master.route('test', ic.home.test);
+  master.route('busyCheck', ic.home.busyCheck);
+  master.route('getComponentData', ic.home.getComponentData);
 }
