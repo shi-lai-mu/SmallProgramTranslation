@@ -2,11 +2,30 @@ import * as React from 'react';
 import ViewDisplay from './viewDisplay';
 import RenderSetting from './renderSetting/renderSetting';
 import ColudPacking from './cloudPacking/cloudPacking';
+import io from 'socket.io-client';
+import { inject } from 'mobx-react';
+
 import { Tabs, Icon } from 'antd';
 import './style/viewrender.scss';
 const { TabPane } = Tabs;
 
+@inject((store: { pagePool: any }) => ({
+    io: store.pagePool.io,
+    setIO: store.pagePool.setIO,
+    getIO: store.pagePool.getIO,
+  })
+)
+
 export default class ViewRender extends React.Component {
+
+  constructor(props: any) {
+    super(props);
+    const socket = io('ws://127.0.0.1:7001')
+    props.setIO(socket);
+    console.log(props.getIO())
+    props.getIO().emit('test', { s: 123456 })
+  }
+
   render() {
     return (
       <div className='card-container view-render'>

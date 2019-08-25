@@ -48,7 +48,11 @@ export default class packService {
         comCount += pageComList.length;
         that.pageDom[pageName] = TreeDom;
       });
-      printMsg = `页面[${pageList.length}]|组件[${comCount}]`;
+      if (pageList.length && comCount) {
+        printMsg = `页面[${pageList.length}]|组件[${comCount}]`;
+      } else {
+        errMsg = `页面或页面组件为空!`
+      }
     } catch(err) {
       errMsg = err; 
     }

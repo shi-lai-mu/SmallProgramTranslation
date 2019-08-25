@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, Steps, Divider } from 'antd'
-import io from 'socket.io-client'
 import { inject } from 'mobx-react'
 
 import { ColudPackgingInterface } from '../../../../interface/status'
@@ -11,7 +10,9 @@ const { Step } = Steps;
 
 @inject((store: { pagePool: any }) => {
   return {
-    pageData: store.pagePool.page
+    pageData: store.pagePool.page,
+    io: store.pagePool.io,
+    getIO: store.pagePool.getIO,
   }
 })
 
@@ -27,8 +28,8 @@ export default class ColudPackging extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props)
-    const socket = io('ws://127.0.0.1:7001')
-    socket.emit('test', { s: 123456 })
+    console.log(props.getIO())
+    props.getIO().emit('test', { s: 654 })
   }
 
   /**
@@ -99,7 +100,7 @@ export default class ColudPackging extends React.Component<any, any> {
                 title={
                   `${item.title}${
                     progressMsg[index]
-                      ? `...${progressMsg[index].status ? 'ok' : 'error'}! ${progressMsg[index].msg}`
+                      ? `...${progressMsg[index].status ? 'ok!' : 'error:'} ${progressMsg[index].msg}`
                       : packingCurrent === index
                         ? 'loading...'
                         : ''

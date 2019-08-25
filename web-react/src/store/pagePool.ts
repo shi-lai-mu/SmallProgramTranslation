@@ -33,6 +33,24 @@ class PagePool {
     this.page[page] = componentDom;
   }
 
+  /**
+   * socket.io
+   */
+  public io: any = {};
+
+  /**
+   * 设置页面数据
+   */
+  @action public setIO = (io: any): void => {
+    this.io = io;
+  }
+
+  /**
+   * 设置页面数据
+   */
+  public getIO = (io: any): void => {
+    return this.io;
+  }
 }
 
 export default new PagePool()

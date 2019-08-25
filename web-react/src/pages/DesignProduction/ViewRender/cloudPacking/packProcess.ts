@@ -82,7 +82,7 @@ class PackProcess extends PackService {
       if (item.action !== undefined) {
         if (this[item.action]) {
           runQuery = this[item.action]();
-          if (!runQuery.status) this.error = `执行[${item.title}]操作时发生错误：${runQuery.msg};`;
+          if (!runQuery.status) this.error = runQuery.msg;
         } else {
           this.error = `未找到[${item.title}]操作!`;
         }
