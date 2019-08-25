@@ -91,24 +91,24 @@ class PackProcess extends PackService {
           msg: ''
         };
         clearTimeout(clock);
-        if (item.action !== undefined) {
-          if (that[item.action]) {
-            // 操作超时判断
-            clock = setTimeout(() => {
-              that.error = '操作超时!';
-              cb(that.packStatus, item, i, runQuery)
-            }, 10000);
-            loading && loading(i);
-            // 同步执行操作
-            runQuery = await that[item.action]();
-            if (!runQuery.status) that.error = runQuery.msg;
-          } else {
-            that.error = `未找到[${item.title}]操作!`;
-          }
-          i++;
-          // 如果 回调返回true 且 无错误 则 继续递归
-          if (cb(that.packStatus, item, i, runQuery) && !that.errMsg) recursive();
+        if (that[item.action]) {
+          // 操作超时判断
+          clock = setTimeout(() => {
+            that.error = '操作超时!';
+            cb(that.packStatus, item, i, runQuery)
+          }, 10000);
+          loading && loading(i);
+
+          // 同步执行操作
+          runQuery = await that[item.action]();
+          if (!runQuery.status) that.error = runQuery.msg;
+        } else {
+          that.error = `未找到[${item.title}]操作!`;
         }
+        i++;
+        
+        // 如果 回调返回true 且 无错误 则 继续递归
+        if (cb(that.packStatus, item, i, runQuery) && !that.errMsg) recursive();
         return recursive;
       }
       return recursive();

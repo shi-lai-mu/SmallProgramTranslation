@@ -26,10 +26,6 @@ export default class ColudPackging extends React.Component<any, any> {
     errMsg: '',
   }
 
-  // constructor(props: any) {
-  //   super(props)
-  // }
-
   /**
    * 云打包
    */
