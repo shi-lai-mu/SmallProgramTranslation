@@ -82,7 +82,7 @@ export default class ColudPackging extends React.Component<any, any> {
         <Steps direction="vertical" size="small" current={packingCurrent} status={packStatus}>
           {
             PackProcess.process.map((item, index) => (
-              <Step title={item.title} description={packingCurrent === index ? item.desc : ''} key={`packProcess-${index}`} />
+              <Step title={item.title} description={packingCurrent >= index ? item.desc : ''} key={`packProcess-${index}`} />
             ))
           }
         </Steps>
