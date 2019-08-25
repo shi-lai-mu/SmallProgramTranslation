@@ -22,11 +22,16 @@ export default class packService {
   /**
    * 检查TREE完整性
    */
-  public checkTreeDom(): (boolean | string) {
+  public checkTreeDom(): { status: boolean; msg: string; } {
+    let errMsg: (string | false) = false;
+    let printMsg: string = '';
+
     try {
       const that = this,
         pagePool: any = that.pagePool,
         pageList: string[] = Object.keys(pagePool);
+      // 计数
+      let comCount = 0;
   
       pageList.forEach((pageName: string) => {
         const pageComList: PageComponent[] = Object.values(pagePool[pageName].components),
@@ -40,11 +45,16 @@ export default class packService {
             setting,
           });
         });
+        comCount += pageComList.length;
         that.pageDom[pageName] = TreeDom;
       });
+      printMsg = `页面[${pageList.length}]|组件[${comCount}]`;
     } catch(err) {
-      return err;
+      errMsg = err; 
     }
-    return true;
+    return {
+      status: !errMsg,
+      msg: errMsg || printMsg
+    }
   }
 }

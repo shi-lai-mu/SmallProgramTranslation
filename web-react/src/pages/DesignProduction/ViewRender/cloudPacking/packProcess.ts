@@ -19,6 +19,9 @@ class PackProcess extends PackService {
 
   [index: string]: any;
 
+  /**
+   * 页面数据
+   */
   private pagePool: any;
 
   /**
@@ -64,19 +67,26 @@ class PackProcess extends PackService {
   /**
    * 打包进度执行
    */
-  public progress(cb: (status: PackStatus, process: Process, index: number) => boolean): void {
+  public progress(
+    cb: (status: PackStatus, process: Process, index: number, runQuery: { status: boolean; msg: string }) => boolean
+  ): void {
     // 中途出错直接停止
     const process: Process[] = PackProcess.process;
+    // 跟进进度
     for (let i = 0, len = process.length; i < len; i++) {
       const item = process[i];
-      if (item.action) {
+      let runQuery: { status: boolean; msg: string } = {
+        status: false,
+        msg: ''
+      };
+      if (item.action !== undefined) {
         if (this[item.action]) {
-          const runQuery = this[item.action]();
-          if (typeof runQuery !== 'boolean') this.error = `执行[${item.title}]操作时发生错误：${runQuery};`;
+          runQuery = this[item.action]();
+          if (!runQuery.status) this.error = `执行[${item.title}]操作时发生错误：${runQuery.msg};`;
         } else {
           this.error = `未找到[${item.title}]操作!`;
         }
-        if (!cb(this.packStatus, item, i) || this.errMsg) break;
+        if (!cb(this.packStatus, item, i, runQuery) || this.errMsg) break;
       }
     }
   }

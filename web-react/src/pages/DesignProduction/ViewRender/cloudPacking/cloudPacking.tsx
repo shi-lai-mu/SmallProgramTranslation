@@ -20,7 +20,8 @@ export default class ColudPackging extends React.Component<any, any> {
   state: ColudPackgingInterface = {
     status: false,
     packStatus: 'process',
-    packingCurrent: 0,
+    packingCurrent: -1,
+    progressMsg: [],
     errMsg: '',
   }
 
@@ -39,17 +40,28 @@ export default class ColudPackging extends React.Component<any, any> {
       status: !that.state.status
     })
     const PaPr = new PackProcess(that.props.pageData)
+    const progressMsg = that.state.progressMsg;
+
+    // 初始化打包
     let step = that.state.packingCurrent
+    if (step === -1) step = 0;
+
     // 执行打包过程
-    PaPr.progress(status => {
+    PaPr.progress((status, process, index, runQuery) => {
       !status.errMsg && ++step
       that.setState({
         packStatus: status.errMsg ? 'error' : 'process',
         packingCurrent: step,
         status: !status.errMsg,
         errMsg: status.errMsg,
+        progressMsg,
       })
-      console.log(status)
+      console.log(runQuery)
+      // 写入当前状态至下标
+      progressMsg.push({
+        status: runQuery.status,
+        msg: status.errMsg || runQuery.msg
+      })
       return true
     })
   }
@@ -64,6 +76,7 @@ export default class ColudPackging extends React.Component<any, any> {
       packingCurrent,
       packStatus,
       errMsg,
+      progressMsg,
     } = this.state;
 
     return (
@@ -82,7 +95,19 @@ export default class ColudPackging extends React.Component<any, any> {
         <Steps direction="vertical" size="small" current={packingCurrent} status={packStatus}>
           {
             PackProcess.process.map((item, index) => (
-              <Step title={item.title} description={packingCurrent >= index ? item.desc : ''} key={`packProcess-${index}`} />
+              <Step
+                title={
+                  `${item.title}${
+                    progressMsg[index]
+                      ? `...${progressMsg[index].status ? 'ok' : 'error'}! ${progressMsg[index].msg}`
+                      : packingCurrent === index
+                        ? 'loading...'
+                        : ''
+                  }`
+                }
+                description={packingCurrent >= index ? item.desc : ''}
+                key={`packProcess-${index}`}
+              />
             ))
           }
         </Steps>

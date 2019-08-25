@@ -15,4 +15,8 @@ export interface ColudPackgingInterface {
    * 错误内容
    */
   errMsg: string;
+  /**
+   * 打包过程中的提示
+   */
+  progressMsg: ({ status: boolean; msg: string; })[];
 }
