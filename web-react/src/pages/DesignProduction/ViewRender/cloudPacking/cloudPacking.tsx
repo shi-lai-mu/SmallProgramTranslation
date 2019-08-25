@@ -28,7 +28,6 @@ export default class ColudPackging extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props)
-    console.log(props.getIO())
     props.getIO().emit('test', { s: 654 })
   }
 
@@ -41,15 +40,19 @@ export default class ColudPackging extends React.Component<any, any> {
       status: !that.state.status
     })
     const PaPr = new PackProcess(that.props.pageData)
-    const progressMsg = that.state.progressMsg;
+    const progressMsg: any = [];
 
     // 初始化打包
-    let step = that.state.packingCurrent
-    if (step === -1) step = 0;
+    let step = 0
 
     // 执行打包过程
     PaPr.progress((status, process, index, runQuery) => {
       !status.errMsg && ++step
+      // 写入当前状态至下标
+      progressMsg.push({
+        status: runQuery.status,
+        msg: status.errMsg || runQuery.msg
+      })
       that.setState({
         packStatus: status.errMsg ? 'error' : 'process',
         packingCurrent: step,
@@ -58,11 +61,6 @@ export default class ColudPackging extends React.Component<any, any> {
         progressMsg,
       })
       console.log(runQuery)
-      // 写入当前状态至下标
-      progressMsg.push({
-        status: runQuery.status,
-        msg: status.errMsg || runQuery.msg
-      })
       return true
     })
   }

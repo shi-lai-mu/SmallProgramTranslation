@@ -12,7 +12,6 @@ const { TabPane } = Tabs;
 @inject((store: { pagePool: any }) => ({
     io: store.pagePool.io,
     setIO: store.pagePool.setIO,
-    getIO: store.pagePool.getIO,
   })
 )
 
@@ -20,10 +19,8 @@ export default class ViewRender extends React.Component {
 
   constructor(props: any) {
     super(props);
-    const socket = io('ws://127.0.0.1:7001')
+    const socket = io('ws://127.0.0.1:7001');
     props.setIO(socket);
-    console.log(props.getIO())
-    props.getIO().emit('test', { s: 123456 })
   }
 
   render() {
