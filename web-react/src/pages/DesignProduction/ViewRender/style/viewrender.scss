@@ -18,6 +18,7 @@
   }
 
   .display-body {
+    position: relative;
     overflow: scroll;
     height: calc(100vh - 140px);
     width: 100%;
@@ -44,6 +45,20 @@
       &:hover {
         box-sizing: border-box;
         border: 1px dashed #12cff0;
+      }
+
+      &.drag-move {
+        transition: 0s;
+      }
+    }
+
+    .content * {
+      border: .5px solid transparent;
+      transition: .1s;
+      
+      &:hover {
+        box-sizing: border-box;
+        border: .5px dashed #ffab0e;
       }
 
       &.drag-move {
