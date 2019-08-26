@@ -17,6 +17,7 @@ module.exports = async () => {
         data: '',
         methods: '',
         publicComponents: '',
+        style: ''
       };
       
       /**
@@ -51,6 +52,7 @@ module.exports = async () => {
         VUE.data += PC.defaultData;
         VUE.methods += PC.methods;
         VUE.publicComponents += PC.components;
+        VUE.style += PC.style;
 
         // 私有组件 缓冲写入
         if (!privateComponentCache['index.js']) {

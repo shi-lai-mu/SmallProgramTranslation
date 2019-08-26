@@ -30,10 +30,6 @@ module.exports = {
   `,
   methods: `
     bindLogin() {
-      /**
-       * 客户端对账号信息进行一些必要的校验。
-       * 实际开发中，根据业务需要进行处理，这里仅做示例。
-       */
       if (this.account.length < 5) {
           uni.showToast({
               icon: 'none',
@@ -48,27 +44,48 @@ module.exports = {
           });
           return;
       }
-      /**
-       * 下面简单模拟下服务端的处理
-       * 检测用户账号密码是否在已注册的用户列表中
-       * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
-       */
-      const data = {
-          account: this.account,
-          password: this.password
-      };
-      const validUser = service.getUsers().some(function (user) {
-          return data.account === user.account && data.password === user.password;
+      uni.showToast({
+          icon: 'none',
+          title: '用户账号或密码不正确',
       });
-      if (validUser) {
-          this.toMain(this.account);
-      } else {
-          uni.showToast({
-              icon: 'none',
-              title: '用户账号或密码不正确',
-          });
-      }
     },
   `,
-  components: ''
+  components: '',
+  style: `
+    .action-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .action-row navigator {
+        color: #007aff;
+        padding: 0 10px;
+    }
+
+    .oauth-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .oauth-image {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #dddddd;
+        border-radius: 50px;
+        margin: 0 20px;
+        background-color: #ffffff;
+    }
+
+    .oauth-image image {
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+    }
+  `
 }
