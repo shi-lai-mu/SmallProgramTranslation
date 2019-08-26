@@ -14,6 +14,7 @@ interface StateModel {
   time: Date;
   targetComponentList: any[];
   vueCode: string;
+  style: string;
 };
 
 interface componentData {
@@ -33,7 +34,8 @@ export default class ViewDisplay extends React.Component<any, any> {
   state: StateModel = {
     time: new Date(),
     targetComponentList: [],
-    vueCode: ''
+    vueCode: '',
+    style: ''
   }
 
   constructor(props: any) {
@@ -63,7 +65,8 @@ export default class ViewDisplay extends React.Component<any, any> {
         new Fn(renderService.packging())();
         dragService.vueRenderComplete(renderService);
         this.setState({
-          vueCode: res
+          vueCode: res,
+          style: res.style
         })
         // 数据装入store
         const name = renderService.targetName;
@@ -79,27 +82,6 @@ export default class ViewDisplay extends React.Component<any, any> {
    */
   public updateDisplay = (componentData: componentData) => {
     this.props.getIO.emit('getComponentData', componentData.name);
-    // axios
-    //   .post(`http://127.0.0.1:7001/${componentData.name}.js`)
-    //   .then((res: any) => {
-    //     // 设定标签 并添加入组件库
-    //     res.data.name = res.data.tag = componentData.name;
-    //     renderService.addComponent(res.data)
-
-    //     try {
-    //       const Fn = Function;
-    //       new Fn(renderService.packging())();
-    //       dragService.vueRenderComplete(renderService);
-    //       this.setState({
-    //         vueCode: res.data
-    //       })
-    //       // 数据装入store
-    //       const name = renderService.targetName;
-    //       this.props.storeSetPageData(name, renderService.pageAll[name]);
-    //     } catch (e) {
-    //       throw Error('视图渲染失: ' + e);
-    //     }
-    //   })
   }
 
   /**
@@ -125,7 +107,7 @@ export default class ViewDisplay extends React.Component<any, any> {
    * 渲染
    */
   public render() {
-    const { time, vueCode } = this.state;
+    const { time, vueCode, style } = this.state;
     return (
       <div className='view-display'>
 
@@ -138,6 +120,8 @@ export default class ViewDisplay extends React.Component<any, any> {
             <PtIcon type='pt-iconset0252'/>
           </span>
         </header>
+
+        <style type="text/css">{style}</style>
 
         <div className='display-body' onDrop={this.onDrop} onDragOver={this.dragOver}>
           <div className={ vueCode ? 'display-box' : 'page-not-data'}>
