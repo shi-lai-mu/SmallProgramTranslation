@@ -9,6 +9,11 @@ import { Tabs, Icon } from 'antd';
 import './style/viewrender.scss';
 const { TabPane } = Tabs;
 
+declare global {
+  interface Window { reactProxy: any; }
+}
+
+
 @inject((store: { pagePool: any }) => ({
     io: store.pagePool.io,
     setIO: store.pagePool.setIO,
@@ -21,6 +26,15 @@ export default class ViewRender extends React.Component {
     super(props);
     const socket = io('ws://127.0.0.1:7001');
     props.setIO(socket);
+    (window).reactProxy = new Proxy({
+      page: 12
+    }, {
+      set(target: { page: number; }, p: string | number | symbol, receiver: any): boolean {
+        Reflect.set(target, p, receiver);
+        console.log(target, p, receiver)
+        return true;
+      }
+    })
   }
 
   render() {
