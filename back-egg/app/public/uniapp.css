@@ -166,21 +166,7 @@ m-input {
   overflow: hidden;
   color: #000;
   background-color: #f8f8f8;
-}
-.display-body button:after {
-  content: " ";
-  width: 200%;
-  height: 200%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 1px solid rgba(0,0,0,.2);
-  -webkit-transform: scale(.5);
-  transform: scale(.5);
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-  box-sizing: border-box;
-  border-radius: 10px;
+  cursor: pointer;
 }
 
 .display-body a {
