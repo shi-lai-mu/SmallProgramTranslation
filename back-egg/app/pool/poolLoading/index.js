@@ -4,9 +4,13 @@
 const fs = require('fs');
 const csjs = require('@gotoeasy/csjs');
 const cache = require('./memoryStack')();
+// const defaultFilesData = require('./defaultFile'); 多线操作
 
-module.exports = async () => {
+module.exports = async (user) => {
+  // const _HASH_ = Math.random().toString(16).replace('.', ''); 多线操作
+  const _HASH_ = '';
   
+
   return {
     /**
      * vue 解释器
@@ -74,10 +78,65 @@ module.exports = async () => {
 
     /**
      * uni-app解释器
+     * 
+     * @param {pageData} pageData 页面数据
      */
-    uniInterpreter() {
+    async uniInterpreter(pageData) {
+      const that = this;
+      // 基础目录创建
+      /**
+       * 多线操作
+       */
+      // const mainPath = await that.mkdir(['', '/public', '/src']);
+      // // 创建基础文件
+      // const defaultFilesTree = [];
+      // for (const fileName in defaultFilesData) {
+      //   defaultFilesTree.push({
+      //     name: fileName,
+      //     content: defaultFilesData[fileName],
+      //   })
+      // }
+      // const fileWrite = await that.writeFiles(defaultFilesTree);
+      /**
+       * 单线操作
+       */
+      const mainPath = await that.mkdir(['/src']);
 
     },
+
+
+    /**
+     * 创建文件夹
+     * 
+     * @param {string|array} mkdirName 文件夹名
+     */
+    async mkdir(mkdirName) {
+      return new Promise((reslove, reject) => {
+        const root = 'hash/' + _HASH_;
+        if (typeof mkdirName === 'string') {
+          fs.mkdir(root + mkdirName, 0775, err => !err ? reslove(path) : reject(err));
+        } else {
+          function mkdir(i = 0) {
+            if (i === mkdirName.length) return reslove(mkdirName);
+            fs.mkdir(root + mkdirName[i], 0775, err => !err ? mkdir(++i) : reject(err));
+          }
+          mkdir();
+        }
+      });
+    },
+
+
+    /**
+     * 写文件
+     * 
+     * @param {array} files 文件名及内容 [{ name: fileName, content: fileContent }, ...]
+     */
+    async writeFiles(files) {
+      const root = 'hash/' + _HASH_ + '/';
+      files.forEach(item => {
+        fs.writeFileSync(root + item.name, item.content);
+      });
+    }
 
   };
 };

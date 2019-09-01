@@ -8,5 +8,6 @@ export default (app: any) => {
 
   master.route('test', ic.home.test);
   master.route('busyCheck', ic.home.busyCheck);
+  master.route('packing', ic.home.packing);
   master.route('getComponentData', ic.home.getComponentData);
 }

@@ -78,4 +78,33 @@ export default class packService {
       msg: 'ok'
     }
   }
+
+
+  /**
+   * 云打包
+   */
+  public async packing() {
+    await new Promise((resolve, reject) => {
+      this.io.emit('packing', this.pagePool)
+      this.io.on('packing', (res: any) => {
+        resolve(res)
+      })
+    })
+
+    return {
+      status: true,
+      msg: 'ok'
+    }
+  }
+
+
+  /**
+   * 云打包
+   */
+  public async download() {
+    return {
+      status: true,
+      msg: 'ok'
+    }
+  }
 }

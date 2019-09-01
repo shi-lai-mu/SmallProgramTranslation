@@ -86,6 +86,7 @@ class PackProcess extends PackService {
 
       async function recursive() {
         const item = process[i];
+        if (!item) return;
         let runQuery: { status: boolean; msg: string } = {
           status: false,
           msg: ''
