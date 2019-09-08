@@ -102,7 +102,6 @@ module.exports = async (user) => {
        */
       await that.clearFiles();
       const mainPath = await that.mkdir(['/src']);
-
     },
 
 
