@@ -100,6 +100,7 @@ module.exports = async (user) => {
       /**
        * 单线操作
        */
+      await that.clearFiles();
       const mainPath = await that.mkdir(['/src']);
 
     },
@@ -114,11 +115,13 @@ module.exports = async (user) => {
       return new Promise((reslove, reject) => {
         const root = 'hash/' + _HASH_;
         if (typeof mkdirName === 'string') {
-          fs.mkdir(root + mkdirName, 0775, err => !err ? reslove(path) : reject(err));
+          !fs.existsSync(root + mkdirName) &&
+            fs.mkdir(root + mkdirName, 0775, err => !err ? reslove(path) : reject(err));
         } else {
           function mkdir(i = 0) {
             if (i === mkdirName.length) return reslove(mkdirName);
-            fs.mkdir(root + mkdirName[i], 0775, err => !err ? mkdir(++i) : reject(err));
+            !fs.existsSync(root + mkdirName[i]) &&
+              fs.mkdir(root + mkdirName[i], 0775, err => !err ? mkdir(++i) : reject(err));
           }
           mkdir();
         }
@@ -136,7 +139,30 @@ module.exports = async (user) => {
       files.forEach(item => {
         fs.writeFileSync(root + item.name, item.content);
       });
-    }
+    },
 
+
+    /**
+     * 删除目录
+     */
+    async clearFiles() {
+      const files = ['src'];
+      files.forEach(dir => {
+        delFile('hash/' + dir);
+      });
+
+      function delFile(name) {
+        if(!fs.existsSync(name)) return;
+        const data = fs.readdirSync(name);
+        data.forEach(fileName => {
+          const path = `${name}/${fileName}`;
+          fs.statSync(path).isFile
+            ? fs.unlinkSync(path)
+            : fs.delFile(path)
+          ;
+        });
+        fs.rmdirSync(name);
+      }
+    }
   };
 };
