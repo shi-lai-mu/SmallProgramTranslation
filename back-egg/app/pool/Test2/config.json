@@ -1,7 +1,7 @@
 {
   "name": "测试组件二",
   "author": "shilaimu",
-  "description": "测试第二个组建池可被编译的组件",
+  "description": "测试第二个组件池可被编译的组件",
   "libaray": [],
   "assets": [],
   "privateComponent": [

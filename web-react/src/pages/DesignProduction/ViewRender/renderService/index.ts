@@ -50,9 +50,9 @@ class RenderComponentService extends RenderServiceUtils {
 
 
   /**
-   * 添加组建
+   * 添加组件
    *
-   * @param component 新组建数据
+   * @param component 新组件数据
    */
   public addComponent(component: PageComponent): RenderComponentService {
     const target = this.page;

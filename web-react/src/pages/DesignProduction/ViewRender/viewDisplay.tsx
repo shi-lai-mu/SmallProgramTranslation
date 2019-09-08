@@ -127,7 +127,7 @@ export default class ViewDisplay extends React.Component<any, any> {
           <div className={ vueCode ? 'display-box' : 'page-not-data'}>
             <div className='display-render'>
               <PtIcon type='pt-zanwu1'/>
-              <span>暂无数据，从组建池内拖入本区域试试？</span>
+              <span>暂无数据，从组件池内拖入本区域试试？</span>
             </div>
           </div>
         </div>

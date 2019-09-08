@@ -1,5 +1,5 @@
 /**
- * 组建池 加载器
+ * 组件池 加载器
  */ 
 const fs = require('fs');
 const csjs = require('@gotoeasy/csjs');

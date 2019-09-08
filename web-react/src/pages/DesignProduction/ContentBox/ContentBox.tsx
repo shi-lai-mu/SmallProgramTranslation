@@ -14,7 +14,7 @@ export default class ContentBox extends React.Component {
         hideAdd
         animated
       >
-        <TabPane tab='组建池' key='1'>
+        <TabPane tab='组件池' key='1'>
           <ComponentsPool />
         </TabPane>
         <TabPane tab='我的收藏' key='2'>
