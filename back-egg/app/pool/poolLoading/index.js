@@ -79,9 +79,9 @@ module.exports = async (user) => {
     /**
      * uni-app解释器
      * 
-     * @param {pageData} pageData 页面数据
+     * @param {pageData} pages 页面数据
      */
-    async uniInterpreter(pageData) {
+    async uniInterpreter(pages) {
       const that = this;
       // 基础目录创建
       /**
@@ -100,8 +100,31 @@ module.exports = async (user) => {
       /**
        * 单线操作
        */
+      // 销毁src文件夹
       await that.clearFiles();
-      const mainPath = await that.mkdir(['/src']);
+      // 重建src文件夹
+      await that.mkdir(['/src/pages', '/src/components', '/src/static']);
+      
+      // 页面遍历
+      for (const pageName in pages) {
+        const pageData = pages[pageName];
+        const pagePath = `src/pages/${pageData.name}`;
+        await that.mkdir(pagePath);
+        const pageFiles = [{
+          name: `${pagePath}/${pageData.name}.vue`,
+          content: '',
+        }];
+        // 组件遍历
+        for (const component of pageData.components) {
+          // console.log(component.name);writeFileslog
+          const privateComponentPath = `app/pool/${component.name}/components/private/`;
+          const fileData = fs.readFileSync(privateComponentPath  + 'index.vue').toString();
+          pageFiles[0].content += fileData;
+        }
+        console.log(pageFiles);
+        
+        await this.writeFiles(pageFiles);
+      }
     },
 
 
@@ -115,7 +138,7 @@ module.exports = async (user) => {
         const root = 'hash/' + _HASH_;
         if (typeof mkdirName === 'string') {
           !fs.existsSync(root + mkdirName) &&
-            fs.mkdir(root + mkdirName, 0775, err => !err ? reslove(path) : reject(err));
+            fs.mkdir(root + mkdirName, 0775, err => !err ? reslove(mkdirName) : reject(err));
         } else {
           function mkdir(i = 0) {
             if (i === mkdirName.length) return reslove(mkdirName);
@@ -145,7 +168,7 @@ module.exports = async (user) => {
      * 删除目录
      */
     async clearFiles() {
-      const files = ['src'];
+      const files = ['src/pages', 'src/components', 'src/static'];
       files.forEach(dir => {
         delFile('hash/' + dir);
       });
@@ -155,9 +178,9 @@ module.exports = async (user) => {
         const data = fs.readdirSync(name);
         data.forEach(fileName => {
           const path = `${name}/${fileName}`;
-          fs.statSync(path).isFile
+          fs.statSync(path).isFile()
             ? fs.unlinkSync(path)
-            : fs.delFile(path)
+            : delFile(path)
           ;
         });
         fs.rmdirSync(name);

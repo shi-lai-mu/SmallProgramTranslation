@@ -85,6 +85,8 @@ export default class packService {
    */
   public async packing() {
     await new Promise((resolve, reject) => {
+      console.log(this.pagePool);
+      
       this.io.emit('packing', this.pagePool)
       this.io.on('packing', (res: any) => {
         resolve(res)

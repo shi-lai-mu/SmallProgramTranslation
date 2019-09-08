@@ -40,14 +40,8 @@ export default class IoHome extends Controller {
       { socket } = ctx,
       pages: ComponentArgs = ctx.args[0];
       const poolLoading = await (await import('../../pool/poolLoading'))();
-
-    // 页面遍历
-    for (const pageName in pages) {
-      // const components = pages[pageName].components;
-      // 组件遍历
-      const targetComponent = await poolLoading.uniInterpreter(pages[pageName]);
-      console.log(targetComponent);
-    }
+    
+    await poolLoading.uniInterpreter(pages);
     socket.emit('packing', 123465)
   }
 }
