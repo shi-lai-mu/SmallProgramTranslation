@@ -4,7 +4,7 @@
 const fs = require('fs');
 const csjs = require('@gotoeasy/csjs');
 const cache = require('./memoryStack')();
-// const defaultFilesData = require('./defaultFile'); 多线操作
+const defaultFilesData = require('./defaultFile'); // 多线操作
 
 module.exports = async (user) => {
   // const _HASH_ = Math.random().toString(16).replace('.', ''); 多线操作
@@ -105,6 +105,7 @@ module.exports = async (user) => {
       // 重建src文件夹
       await that.mkdir(['/src/pages', '/src/components', '/src/static']);
       
+      let configPages = '';
       // 页面遍历
       for (const pageName in pages) {
         const pageData = pages[pageName];
@@ -114,17 +115,23 @@ module.exports = async (user) => {
           name: `${pagePath}/${pageData.name}.vue`,
           content: '',
         }];
+        // 配置内添加页面
+        configPages += `{"path": "pages/${pageData.name}", "style": { "navigationBarTitleText": "${pageData.name}" }},`
         // 组件遍历
         for (const component of pageData.components) {
           // console.log(component.name);writeFileslog
           const privateComponentPath = `app/pool/${component.name}/components/private/`;
           const fileData = fs.readFileSync(privateComponentPath  + 'index.vue').toString();
           pageFiles[0].content += fileData;
-        }
-        console.log(pageFiles);
-        
+        };
         await this.writeFiles(pageFiles);
       }
+
+      // 生成页面路径文件
+      fs.writeFileSync('hash/src/pages.json', defaultFilesData['pages.json'].replace('__pages__', configPages.substr(0, configPages.length - 1)));
+
+      // 尝试运行
+
     },
 
 
