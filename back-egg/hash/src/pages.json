@@ -1,7 +1,6 @@
 
 {
-  "pages": [{"path": "pages/home", "style": { "navigationBarTitleText": "home" }}],
-  "tabBar": {},
+  "pages": [{"path": "pages/home/home", "style": { "navigationBarTitleText": "home" }}],
   "globalStyle": {
       "navigationBarTextStyle": "white",
       "navigationBarBackgroundColor": "#0faeff",
