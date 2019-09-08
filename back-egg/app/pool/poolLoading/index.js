@@ -129,12 +129,17 @@ module.exports = async (user) => {
       }
 
       // 生成页面路径文件
-      fs.writeFileSync('hash/src/pages.json', defaultFilesData['pages.json'].replace('__pages__', configPages.substr(0, configPages.length - 1)));
+      fs.writeFileSync(
+        'hash/src/pages.json', defaultFilesData['pages.json'].replace('__pages__',
+        configPages.substr(0, configPages.length - 1))
+      );
 
       
       // 尝试运行
       // fs.writeFileSync('hash/build.sh', 'npm run build:mp-weixin');
-      spawn.sync('sh', ['build.sh'], { stdio: 'inherit' });
+      const ext = spawn.sync('sh', ['build.sh'], { stdio: 'inherit' });
+      console.log(ext);
+      
     },
 
 
