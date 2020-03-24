@@ -1,4 +1,4 @@
-# 三平台小程序生成系统
+# 三平台小程序生成系统(太忙了这坑先挖着，有空回来填坑(ಥ_ಥ))
 <p align="center">
   <img src="https://raw.githubusercontent.com/shi-lai-mu/SmallProgramTranslation/master/docs/images/logo.svg?sanitize=true" height="130">
 </p>
